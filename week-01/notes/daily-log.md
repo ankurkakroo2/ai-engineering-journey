@@ -95,24 +95,41 @@
 ## Day 2 - Sunday, Dec 29, 2025
 
 ### Goals
+- [x] Claude Code Tutorial (Complete)
 - [ ] Complete mental model
 - [ ] Document understanding
 - [ ] Prepare for hands-on work
 
-### What I Did
--
+### What I Actually Did ✅
+
+1. **Claude Code Tutorial - Fundamentals** (1-2 hours)
+   - Learned basic commands and slash commands (/help, /clear, /agents, /mcp, /doctor)
+   - Understood permission modes (read, edit, write, execute)
+   - Explored available agents: general-purpose, Explore, Plan, claude-code-guide, fact-validator-agent
+   - Practiced git workflows and commit operations
+   - Gained confidence with Claude Code as primary development partner
 
 ### What I Learned
--
+- Claude Code has specialized agents for different task types
+- Agents optimize for specific workflows (Explore for codebase navigation, Plan for architecture)
+- Permission-based control gives clear visibility into what Claude Code can do
+- Built foundation for using Claude Code effectively throughout the 8-week journey
 
 ### Challenges
--
+- Learning new tool terminology and command syntax
+- Understanding when to use different agent types vs direct commands
 
 ### Wins
--
+- ✅ Completed comprehensive Claude Code tutorial
+- ✅ Updated CLAUDE.md with agent documentation
+- ✅ Comfortable with git integration and commit workflows
+- ✅ Ready to leverage Claude Code as development partner for Week 1 project
 
 ### Tomorrow's Plan
--
+- Watch Andrej Karpathy's LLM intro video (with fresh mind)
+- Create mental model diagram synthesizing all learning
+- Continue with optional readings (Jay Alammar, Weaviate, Pinecone) if energy allows
+- Prepare for Day 3 coding (semantic-code-search project)
 
 ---
 
