@@ -16,7 +16,7 @@ This is an **8-week AI engineering learning journey** (Dec 28, 2025 - Feb 22, 20
 - Thrives on understanding the big picture before implementation details
 - Values learning depth over speed
 
-**Important**: When working on code, ensure explanations are thorough and technical. Ankur has strong software engineering background (director level) but hasn't coded hands-on for ~2 years.
+**Important**: When working on code, ensure explanations are thorough and technical. Ankur has strong software engineering background (director level) but hasn't coded hands-on for a while.
 
 ## 8-Week Project Roadmap
 
@@ -90,6 +90,22 @@ ai-engineering-journey/
 - FastAPI (REST APIs)
 - Next.js (frontend UIs)
 - LangChain (for comparative study, not primary)
+
+## Available Claude Code Agents
+
+Claude Code uses specialized agents to handle different types of tasks efficiently:
+
+### Agent Types
+
+**general-purpose**: Handles complex multi-step tasks, code research, and exploratory work. Use when you need to perform comprehensive investigations across the codebase.
+
+**Explore**: Fast agent specialized for exploring codebases. Use for finding files by patterns (e.g., `src/components/**/*.tsx`), searching code for keywords, or answering structural questions about the codebase. Specify thoroughness: "quick" for basic searches, "medium" for moderate, "very thorough" for comprehensive.
+
+**Plan**: Software architect agent for designing implementation strategies. Use when planning complex features - it identifies critical files, considers trade-offs, and returns step-by-step plans.
+
+**claude-code-guide**: Accesses official Claude Code and Claude Agent SDK documentation. Use when asking about Claude Code features, hooks, slash commands, MCP servers, settings, IDE integrations, or the Claude Agent SDK.
+
+**fact-validator-agent**: Systematically verifies claims in documents against internet sources. Use when you need to fact-check technical claims, documentation accuracy, or validate information.
 
 ## Key Development Workflows
 
