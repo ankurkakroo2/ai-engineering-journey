@@ -1,5 +1,4 @@
 # AI Engineering Journey
-**8 Weeks: From Director to Shipping AI Engineer**
 
 ## Quick Links
 - 📋 [**Master Plan**](PLAN.md) - Complete 8-week curriculum
