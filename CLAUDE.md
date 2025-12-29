@@ -16,7 +16,38 @@ This is an **8-week AI engineering learning journey** (Dec 28, 2025 - Feb 22, 20
 - Thrives on understanding the big picture before implementation details
 - Values learning depth over speed
 
-**Important**: When working on code, ensure explanations are thorough and technical. Ankur has strong software engineering background (director level) but hasn't coded hands-on for a while.
+**Important**: When working with code, ensure explanations are thorough and technical. Ankur has strong software engineering background (director level) but hasn't coded hands-on for a while.
+
+## Week 1 Current Progress (Dec 28-29, 2025)
+
+### Day 1 - Completed ✅
+- ✅ Claude Code Quickstart (30+ min) - Learned commands, agents, permission modes
+- ✅ Stack Overflow: Intuitive Intro to Embeddings (5+ hours including deep dives)
+  - Went deep on RNNs, LSTMs, Transformers (exceeding initial plan)
+  - Validated Ankur's learning style - rabbit holes = deep understanding
+- ✅ Updated CLAUDE.md with all 5 specialized agents
+
+### Day 2 - In Progress 🔄
+- ✅ **Chose depth**: "Deep Dive into LLMs like ChatGPT" (3.5 hours) over simpler intro
+  - **Checkpoint 1**: Complete Pretraining Flow
+    - Tokenization via BPE: 256 bytes → 50k tokens
+    - 12-layer transformer with attention + softmax
+    - End-to-end example: "The big dog ran" → predict "fast"
+    - Connected Day 1 insights (RNNs/LSTMs/attention) to transformers
+  - **Checkpoint 2**: Post-Training - The Real Revolution
+    - Base model = "internet document simulator"
+    - Post-training = teaches to "think like helpful human labeler"
+    - InstructGPT paper (2022): quality labeling > quantity
+    - Modern evolution: LLM-assisted synthetic data (2023-2025)
+    - Concrete examples: base vs. instruct on harmful requests
+- ✅ Created running notes file (`day2-deep-dive-notes.md`, 400+ lines with all resource links)
+- Still to complete: Remaining Deep Dive sections + 3 readings + mental model diagram
+
+### Key Approach Established
+- **Running notes during learning**: checkpoint-based, detailed
+- **Daily log summary at end**: high-level synthesis
+- **Validated learning style**: Deep dives > surface learning
+- **Next**: Continue video + readings with better context, then hands-on Day 3
 
 ## 8-Week Project Roadmap
 

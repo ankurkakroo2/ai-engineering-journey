@@ -159,44 +159,79 @@ ai-engineering-journey/
 ---
 
 # Current Status
-**Last Updated**: December 28, 2025
+**Last Updated**: December 29, 2025 (End of Day 2)
 
 ## Where Ankur Is Now
 - **Current Week**: Week 1
-- **Current Day**: Day 1 (Saturday, Dec 28, 2025)
-- **Current Task**: Ready to start foundational reading
+- **Current Day**: Day 2 (Sunday, Dec 29, 2025)
+- **Current Status**: Deep in learning mode - completed Andrej Karpathy Deep Dive (2 checkpoints)
+- **Current Task**: Continue watching remaining sections of Deep Dive, then complete readings
 
-## Today's Focus (Day 1-2 - Saturday-Sunday, Dec 28-29)
-Follow this learning sequence - account for deep dives and rabbit holes:
+## Day 1 - Completed ✅
+1. ✅ **Claude Code Quickstart** - Learned basic commands, slash commands, agents, permission modes
+2. ✅ **Stack Overflow: Intuitive Intro to Embeddings** (5+ hours including deep dives)
+   - Distance metrics (Euclidean vs. Cosine)
+   - Pre-trained models concept
+   - Word2Vec, RNNs, LSTMs, Transformers deep understanding
+3. ✅ **Updated CLAUDE.md** - Documented all 5 specialized Claude Code agents
 
-1. [ ] **Claude Code Quickstart** (30 min) - https://code.claude.com/docs/en/quickstart.md
-2. [ ] **Stack Overflow: Intuitive Intro to Embeddings** (45 min - 1 hour) - https://stackoverflow.blog/2023/11/09/an-intuitive-introduction-to-text-embeddings/
-3. [ ] **Jay Alammar's Illustrated Word2Vec** (30-45 min) - https://jalammar.github.io/illustrated-word2vec/
-4. [ ] **Weaviate: Vector Embeddings Explained** (30-45 min) - https://weaviate.io/blog/vector-embeddings-explained
-5. [ ] **Pinecone: Vector Database** (45 min - 1 hour) - https://www.pinecone.io/learn/vector-database/
-6. [ ] **Andrej Karpathy's LLM Intro** (1.5 hours) - https://www.youtube.com/watch?v=zjkBMFhNj_g
-7. [ ] **Create mental model diagram** - Document in week-01/notes/mental-model.md (2-4 hours)
+## Day 2 - In Progress 🔄
+### Completed Today:
+1. ✅ **Andrej Karpathy Deep Dive - "Deep Dive into LLMs like ChatGPT"** (chose depth over quick intro)
+   - **Checkpoint 1**: Complete Pretraining Flow (detailed)
+     - Tokenization via BPE algorithm (256 bytes → 50k tokens)
+     - 12-layer transformer with attention mechanism
+     - 1.6B parameters for GPT-2
+     - Softmax breakthrough for probability conversion
+     - Full end-to-end example: "The big dog ran" → "fast"
+     - Connected to Day 1 learning: RNN insights manifest in transformer math
 
-**Total**: 8-12 hours of focused learning (includes rabbit holes!)
-**Learning Flow**: Tool mastery → Intuitive understanding → Visual learning → Technical depth → Big picture → Synthesis
+   - **Checkpoint 2**: Post-Training - From Base Model to Assistant (detailed)
+     - KEY INSIGHT: Base model is "internet document simulator" → Post-training transforms to "helpful assistant"
+     - Human labeling and InstructGPT paper (2022) revelation
+     - Three phases: conversation tokenization → human labeling → synthetic data evolution
+     - The "psychology" of ChatGPT: statistical simulation of helpful labelers
+     - Concrete examples showing base model vs. instruct model behavior
+     - Revolutionary discovery: quality labeling matters more than quantity
+     - Modern trend: LLM-assisted labeling and synthetic data (2023-2025)
 
-**Note**: You learn by asking questions and going deep. Don't rush through. The rabbit holes are where real understanding happens.
+   - **Created running notes file** (`day2-deep-dive-notes.md`) with 400+ lines of structured notes
+   - **All resource links captured**: Tiktokenizer, visualizers, papers, tools
 
-## What's Been Completed
-- ✅ Created 8-week learning plan
-- ✅ Set up folder structure with all weekly folders
-- ✅ Created supporting documents (PLAN.md, PROGRESS.md, QUICKSTART.md, etc.)
-- ✅ Created Week 1 detailed README
-- ✅ Created daily log template for Week 1
-- ✅ Fixed all dates to 2025-2026
-- ✅ Created this context file
+### Still to Watch:
+- [ ] Inference optimization
+- [ ] Scaling laws
+- [ ] Context window limitations
+- [ ] RLHF (Reinforcement Learning from Human Feedback)
+- [ ] Practical applications and deployment
 
-## What's Next
-- Start Day 1-2: World View Building (16 hours over Sat-Sun)
-- Read foundational materials on vector search and embeddings
-- Watch Andrej Karpathy's LLM intro video
-- Create mental map of the AI engineering stack
-- Document understanding in week-01/notes/
+### Still to Complete Today:
+- [ ] Jay Alammar's Illustrated Word2Vec (with Deep Dive context)
+- [ ] Weaviate: Vector Embeddings Explained
+- [ ] Pinecone: Vector Database
+- [ ] Create mental model diagram in `week-01/notes/mental-model.md`
+
+## What's Been Completed (Overall)
+- ✅ 8-week learning plan created
+- ✅ Full folder structure with all weekly folders
+- ✅ Supporting documents (PLAN.md, PROGRESS.md, QUICKSTART.md, CLAUDE.md)
+- ✅ Week 1 detailed README
+- ✅ Claude Code tutorial completed + documented
+- ✅ Deep foundational learning (embeddings through transformers through LLM training pipeline)
+- ✅ Created comprehensive running notes (day2-deep-dive-notes.md, 2 checkpoints, 400+ lines)
+- ✅ All commits pushed to GitHub (4 commits today)
+
+## What's Next (Today & Tomorrow)
+**Today (Day 2 remaining):**
+1. Finish Deep Dive video (remaining sections on inference, scaling, RLHF)
+2. Complete remaining readings (Jay Alammar, Weaviate, Pinecone)
+3. Create mental model diagram
+4. End-of-day: Write daily-log.md summary
+
+**Tomorrow (Day 3):**
+1. Hands-on experimentation with core concepts
+2. Embeddings generation, similarity metrics, ChromaDB, chunking strategies
+3. Design system architecture for semantic-code-search project
 
 ## Quick Navigation
 - [Master Plan](PLAN.md) - Complete 8-week curriculum
@@ -212,27 +247,50 @@ Follow this learning sequence - account for deep dives and rabbit holes:
 - Blog posts go in `portfolio/blog-posts/`
 - Daily logs are critical for continuity
 
-## Last Session Summary
-**What We Discussed**:
-1. Ankur's background as Director of Engineering wanting to code again
-2. His learning style: world view first, then deep dive
-3. Goal: 8-week AI engineering journey with portfolio
-4. Created complete folder structure and detailed plans
-5. Week 1 is aggressive (holiday week, 40-50 hours)
-6. Fixed all dates from 2024 to 2025-2026
-7. Created this context file for session continuity
+## Latest Session Summary (Dec 29, 2025)
+**What We Accomplished Today**:
+1. ✅ Completed Claude Code tutorial - learned all basic commands and specialized agents
+2. ✅ Chose "Deep Dive into LLMs like ChatGPT" over simpler intro video
+3. ✅ Captured 2 major checkpoints (400+ lines of detailed notes)
+4. ✅ Created running notes structure: detailed notes during learning, summary in daily-log at end of day
+5. ✅ Updated CLAUDE.md with comprehensive agent documentation
+6. ✅ Made 4 commits to GitHub with progress
 
-**Key Decisions Made**:
+**Key Learnings Captured**:
+- **Checkpoint 1 - Pretraining**: Complete flow from text → tokens → 12-layer transformer → 1.6B parameters
+  - Tokenization strategy matters (BPE algorithm)
+  - Softmax brilliance: converts raw scores to interpretable probabilities
+  - Day 1 insights (RNNs, LSTMs, attention) manifest directly in transformer architecture
+
+- **Checkpoint 2 - Post-Training**: The real magic isn't in pretraining, it's in post-training
+  - Base model = "internet document simulator"
+  - Post-training = teaches model to "think like helpful human labeler"
+  - InstructGPT paper (2022) was the breakthrough: quality labeling > quantity
+  - Modern evolution: synthetic data with LLM assistance (2023-2025)
+  - Concrete examples: why ChatGPT refuses harmful requests while base model would comply
+
+**Approach Decision Made**:
+- Running notes strategy: detailed checkpoint notes during video/learning
+- End-of-day summary in daily-log.md for continuity
+- All resource links captured for future reference
+
+**Remaining for Day 2**:
+- Continue watching Deep Dive (inference, scaling, RLHF, applications)
+- Read: Jay Alammar, Weaviate, Pinecone (with better context from Deep Dive)
+- Create mental model diagram
+- Daily-log summary
+
+**Key Decisions Made** (Previous Sessions):
 - Python for Week 1-5 (AI/ML work)
 - TypeScript for Week 6 (MCP servers)
 - Build from scratch before using frameworks
 - Weekly blog posts + daily social media
 - Portfolio website as final deliverable
 
-**Ankur's Concerns Addressed**:
-- Session continuity: This file + daily logs ensure context preservation
-- Can safely exit and resume - just read this file first
-- All important info is in files, not just conversation history
+**Ankur's Learning Style Validated**:
+- World view first, then deep dive ✅ (went deep on transformers before moving on)
+- Learning by asking questions ✅ (rabbit holes are learning, not distraction)
+- Wants understanding before code ✅ (building mental models before Day 3 hands-on)
 
 ---
 
