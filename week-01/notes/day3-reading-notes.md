@@ -49,6 +49,93 @@
 
 ---
 
+## CHECKPOINT 3: Hallucinations, Tool Use, Knowledge/Working Memory (1:20:32 onwards)
+
+### Hallucinations (1:20:32)
+- Models are text prediction machines - predict next token based on patterns, not truth
+- When models don't know: still predict plausible continuation → "hallucinations" (factually incorrect/nonsensical)
+- Hallucinations more likely with obscure/uncommon information from training data
+- **Key insight**: No internal "I don't know" state - just probability-based prediction
+- This is fundamental to how transformers work - always output something
+
+### Tool Use (1:24:25)
+**Mental Model Established:**
+- Every response flows through special tokens
+- Post-training data is general enough to recognize when tools are needed
+- Hidden system prompt describes available tools
+- Flow: Model outputs tool token → Orchestrator intercepts → Calls actual tool → Passes updated context back to model → Gets final answer with current information
+
+**Examples:**
+- Calculator (1:24:50): Model outputs token for calculator tool, system runs calculation, inserts result back into context
+- Web Search (1:26:00): Model outputs search token, system performs search, results fed back as context, model continues with current info
+- **Outcome**: Expands capabilities beyond static training data, improves accuracy for factual/real-time queries
+
+### Knowledge vs. Working Memory (1:31:00)
+**Knowledge (1:31:30):**
+- Information "memorized" in parameters during pre-training
+- Compressed, statistical recollection of internet
+- Vague and probabilistic
+
+**Working Memory (1:33:00):**
+- Current context in the prompt
+- Short-term memory analogy
+- **Key insight**: Quality/specificity improves when in working memory vs. relying on stored knowledge
+
+**In-Context Learning (1:35:00):**
+- Model learns new patterns from examples in current prompt
+- Relies on working memory
+
+**Tradeoff (1:39:00):**
+- Larger context windows = more computation but better reasoning, less hallucination
+- This explains why longer prompts with examples help
+
+### Knowledge of Self (1:41:46)
+- Model has no "self" or consciousness
+- Statements like "As a large language model..." are text patterns from training data
+- Common phrases learned from datasets where people describe AI
+- **Fundamental truth**: Imitation and mimicry based on observed text, not self-awareness
+
+### Models Need Tokens to Think (1:46:56)
+**Core Insight:**
+- Model's "thought process" = sequential token generation
+- To solve complex problems: needs to output intermediate tokens
+- **Tokens ARE the thinking**, not a byproduct
+
+**Chain-of-Thought Prompting (1:48:00):**
+- Instruct model to "think step by step"
+- Intermediate thought tokens improve accuracy
+- Example: 100 + 200 * 3 (direct answer might fail, step-by-step works)
+
+**YOUR KEY INSIGHT:**
+- If tokens are inputs and model (12 layers) is the brain
+- Predicting answer quickly = fewer tokens = fewer passes through brain
+- Giving model time to think = more tokens = multiple passes through 12 layers
+- **Result**: Significantly higher probability of reaching right answer
+- **Why labelers prefer this**: In post-training, human labelers naturally prefer detailed reasoning responses
+- This is why CoT prompting works - it's mimicking what the model learned from human preferences
+
+**Computational Cost:**
+- More complex thoughts = more tokens
+- Longer context windows + more computation
+- Trade-off between cost and accuracy
+
+---
+
+## CHECKPOINT 4: (Continuing from 1:46:56 onwards - Placeholder for remaining sections)
+- [ ] Tokenization revisited: spelling struggles
+- [ ] Jagged intelligence
+- [ ] Supervised fine-tuning to reinforcement learning
+- [ ] Reinforcement learning
+- [ ] DeepSeek-R1
+- [ ] AlphaGo
+- [ ] RLHF
+- [ ] Preview of things to come
+- [ ] Keeping track of LLMs
+- [ ] Where to find LLMs
+- [ ] Grand summary
+
+---
+
 ## EXPERIMENT 1: Embeddings Generation
 
 **Goal**: Generate embeddings with OpenAI API and observe semantic properties
