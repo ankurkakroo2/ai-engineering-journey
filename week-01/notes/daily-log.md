@@ -96,11 +96,11 @@
 
 ### Goals
 - [x] Claude Code Tutorial (Complete)
-- [x] Complete mental model (STRONG foundation via Deep Dive)
-- [x] Document understanding (400+ lines in running notes)
-- [x] Prepare for hands-on work ✅
+- [ ] Complete mental model (In progress - Deep Dive video ~50% done)
+- [ ] Document understanding (Building in running notes)
+- [ ] Prepare for hands-on work
 
-### What I Actually Did ✅
+### What I Actually Did ✅ (In Progress)
 
 1. **Claude Code Tutorial - Fundamentals** (1-2 hours)
    - Learned basic commands and slash commands (/help, /clear, /agents, /mcp, /doctor)
@@ -109,82 +109,83 @@
    - Practiced git workflows and commit operations
    - Gained confidence with Claude Code as primary development partner
 
-2. **Andrej Karpathy: Deep Dive into LLMs like ChatGPT** (3.5+ hours) - STRATEGIC CHOICE
-   - **Decision**: Chose depth (3.5h deep dive) over quick intro (1h)
-   - **Checkpoint 1: Complete Pretraining Flow**
+2. **Andrej Karpathy: Deep Dive into LLMs like ChatGPT** (In Progress - 50% complete)
+   - **Decision**: Chose depth (3.5h+ deep dive) over quick intro (1h)
+
+   - **✅ CHECKPOINT 1: Complete Pretraining Flow** (Watched & Documented)
      - Text → Tokenization (BPE: 256 bytes → 50k tokens)
      - Token embeddings → 12-layer transformer with attention mechanism
      - Query/Key/Value matrices, softmax, weighted aggregation
      - 1.6B parameters for GPT-2
-     - End-to-end: "The big dog ran" → "fast" (full trace through model)
-     - Softmax breakthrough: exp(scores) → normalized probabilities
+     - End-to-end: "The big dog ran" → "fast" (full trace)
+     - [Full details in day2-deep-dive-notes.md]
 
-   - **Checkpoint 2: Post-Training Revolution** (KEY INSIGHT)
-     - Base model = "internet document simulator" (predicts next token like web text)
-     - Post-training = teaches model to "think like helpful human labeler"
-     - InstructGPT paper (2022): quality labeling > quantity of data
-     - Three phases: conversation tokenization → human labeling → synthetic data evolution
-     - Labeling instructions (100+ pages): helpful, harmless, honest framework
-     - Modern trend (2023-2025): LLM-assisted refinement, not scratch writing
-     - Concrete examples: base model vs. instruct model on harmful requests
-     - The psychology: ChatGPT = statistical simulation of helpful experts
+   - **✅ CHECKPOINT 2: Post-Training Revolution** (Watched & Documented)
+     - Base model = "internet document simulator"
+     - Post-training = "think like helpful human labeler"
+     - InstructGPT paper (2022): quality > quantity
+     - Three phases: tokenization → labeling → synthetic data
+     - [Full details in day2-deep-dive-notes.md]
 
-3. **Created Running Notes Structure**
-   - Created `day2-deep-dive-notes.md` (400+ lines)
-   - Two complete checkpoints with diagrams and examples
-   - All resource links captured (Tiktokenizer, visualizers, papers)
-   - Approach validated: detailed notes during learning, summary in daily-log at end of day
+   - **🔄 CONTINUING NOW:**
+     - [ ] Hallucinations, tool use, knowledge/working memory
+     - [ ] Knowledge of self
+     - [ ] Models need tokens to think
+     - [ ] Tokenization revisited: spelling struggles
+     - [ ] Jagged intelligence
+     - [ ] Supervised fine-tuning to reinforcement learning
+     - [ ] Reinforcement learning
+     - [ ] DeepSeek-R1
+     - [ ] AlphaGo
+     - [ ] RLHF (Reinforcement Learning from Human Feedback)
+     - [ ] Preview of things to come
+     - [ ] Keeping track of LLMs
+     - [ ] Where to find LLMs
+     - [ ] Grand summary
 
-### What I Learned
+3. **Running Notes Being Updated in day2-deep-dive-notes.md**
+   - Will add checkpoints 3-8+ as video continues
+   - All findings documented with resource links
+   - Approach: detailed notes during watching, summary here at end of day
+
+### What I Learned So Far (Checkpoints 1-2)
 **Pretraining Insights:**
-- Tokenization strategy is critical (BPE efficiency)
-- Attention mechanism = learned weighted lookup of relevant tokens
-- Softmax amplifies important differences (exp function is brilliant)
-- Parameters learned through gradient descent over millions of iterations
-- Training: weeks/months; Inference: milliseconds (frozen weights)
+- Tokenization (BPE) is the critical first step
+- Attention mechanism elegantly solves long-distance dependencies
+- Softmax amplifies important differences (exp function insight)
+- Training takes weeks/months; inference is milliseconds
 
 **Post-Training Insights:**
-- The base model knows EVERYTHING (internet knowledge)
-- Post-training teaches it HOW to share that knowledge helpfully
-- Human labeling guidelines (100+ pages) encode company values
-- Modern systems use LLM assistance for data generation (meta!)
-- Quality > quantity: fewer high-quality labeled examples > many mediocre ones
+- Base model knows everything from internet; post-training teaches helpfulness
+- Quality of labeling instructions > quantity of data
+- Modern systems using LLM-assisted synthetic data
+- InstructGPT paper (2022) was the breakthrough
 
-**Mental Model Achievement:**
-- Complete flow: Raw Internet → Tokens → Embeddings → 12 Transformer Layers → Output Distribution
-- Connection: Day 1 insights (RNNs → LSTMs → Transformers) manifest directly in GPT architecture
-- Why it works: Attention mechanism elegantly solves long-distance dependency problem
-- The revolution: Post-training is where the "magic" happens (not pretraining as commonly thought)
+**Still to Learn in Remaining Sections:**
+- How models hallucinate and how to detect it
+- Tool use and knowledge/working memory implications
+- Tokenization limitations (spelling struggles)
+- Why intelligence is "jagged" across domains
+- Full spectrum: Fine-tuning → Reinforcement Learning → RLHF
+- Real-world models: DeepSeek-R1, AlphaGo patterns
+- Future directions and where to find/track LLMs
 
 ### Challenges
-- None - the depth was exactly right for learning style
-- Initial concern about "wasting time" on deep dives was unfounded
-- Deep dives create understanding, not distraction
+- None yet - deep dive format is engaging and clear
 
-### Wins
-- ✅ Completed Deep Dive video (3.5+ hours) - chose depth over speed
-- ✅ Created comprehensive running notes (400+ lines, structured)
-- ✅ Built strong mental model of COMPLETE LLM pipeline (pretraining → post-training)
-- ✅ Understanding shifted from "how does it work?" to "why does it work this way?"
-- ✅ All learnings connected Day 1 insights to real implementation
-- ✅ Made 4 GitHub commits with progress
-- ✅ Prepared Day 3 hands-on work with solid foundation
+### Wins So Far
+- ✅ Chose depth (3.5h+) over lightweight intro
+- ✅ Created running notes system (day2-deep-dive-notes.md)
+- ✅ Captured first 2 major checkpoints thoroughly
+- ✅ Connected Day 1 insights to Day 2 implementation details
+- ✅ Made 5 GitHub commits tracking progress
 
-### Still to Complete (Optional - can skip if time-pressed)
-- Jay Alammar's Illustrated Word2Vec (visual reinforcement)
-- Weaviate: Vector Embeddings Explained (practical context)
-- Pinecone: Vector Database (architecture details)
-- Create formal mental model diagram
-
-**DECISION**: Skip the remaining readings. Day 3 hands-on will solidify knowledge better than more reading.
-
-### Tomorrow's Plan (Day 3)
-- Start hands-on experimentation
-- Experiment 1: Embeddings generation with OpenAI API
-- Experiment 2: Vector similarity calculations (cosine vs euclidean)
-- Experiment 3: ChromaDB local storage and retrieval
-- Experiment 4: Chunking strategy comparisons
-- Document findings in `notes/experiments.md`
+### Plan for Rest of Day 2
+- Continue Deep Dive video from hallucinations section
+- Add checkpoints 3-8+ to day2-deep-dive-notes.md as you watch
+- Finish entire video before end of day
+- At end: finalize daily-log with complete summary
+- Then start Day 3 hands-on experiments tomorrow
 
 ---
 

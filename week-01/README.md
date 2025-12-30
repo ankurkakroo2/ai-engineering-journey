@@ -25,38 +25,42 @@ semantic-search "how does job matching work?"
 ### Day 1-2: World View (16 hours)
 **Saturday-Sunday, Dec 28-29, 2025**
 
-**Reading** (8-12 hours) - Follow this sequence:
+**Reading** (12+ hours) - Follow this sequence:
 ⚠️ **Note**: Time estimates account for deep dives and rabbit holes. You learn by asking questions, not just skimming. Go deep.
 
-1. [x] **Claude Code Quickstart** (30 min) - Learn your development tool first ✅
+1. [x] **Claude Code Quickstart** (30 min) - Learn your development tool first ✅ **DONE**
    - [Claude Code Quickstart Guide](https://code.claude.com/docs/en/quickstart.md)
    - [Common Workflows Reference](https://code.claude.com/docs/en/common-workflows.md)
 
-2. [x] **Stack Overflow: Intuitive Intro to Embeddings** (5+ hours with deep dives) ✅
+2. [x] **Stack Overflow: Intuitive Intro to Embeddings** (5+ hours with deep dives) ✅ **DONE**
    - [An Intuitive Introduction to Text Embeddings](https://stackoverflow.blog/2023/11/09/an-intuitive-introduction-to-text-embeddings/)
    - **Why this**: Clear analogies, explains high-dimensional spaces intuitively
    - *Actual: Went deep on RNNs, LSTMs, Transformers - rabbit holes = understanding*
 
-3. [x] **Andrej Karpathy: Deep Dive into LLMs like ChatGPT** (3.5+ hours) ✅ [REPLACED LIGHTWEIGHT INTRO]
-   - STRATEGIC CHOICE: Chose depth over quick intro
-   - Checkpoint 1: Complete Pretraining Flow (tokenization → transformer → output)
-   - Checkpoint 2: Post-Training Revolution (base model → helpful assistant)
-   - All learnings documented in `notes/day2-deep-dive-notes.md`
+3. [ ] **Andrej Karpathy: Deep Dive into LLMs like ChatGPT** (3.5+ hours) 🔄 **IN PROGRESS** (~50% done)
+   - STRATEGIC CHOICE: Chose depth over quick 1-hour intro
+   - ✅ Checkpoint 1: Complete Pretraining Flow (tokenization → transformer → output)
+   - ✅ Checkpoint 2: Post-Training Revolution (base model → helpful assistant)
+   - 🔄 Currently watching: Hallucinations section and beyond
+   - Still to watch: Tool use, knowledge, spelling, jagged intelligence, fine-tuning, RL, RLHF, future directions
+   - All learnings documented in `notes/day2-deep-dive-notes.md` (updated as you watch)
 
-4. [ ] **Jay Alammar's Illustrated Word2Vec** (30-45 min) - OPTIONAL [Skip for now, hands-on will solidify]
+4. [ ] **Jay Alammar's Illustrated Word2Vec** (30-45 min) - OPTIONAL
    - [The Illustrated Word2Vec](https://jalammar.github.io/illustrated-word2vec/)
-   - Can revisit if needed after hands-on experiments
+   - Can revisit after completing Deep Dive if needed
 
-5. [ ] **Weaviate: Vector Embeddings Explained** (30-45 min) - OPTIONAL [Skip for now]
+5. [ ] **Weaviate: Vector Embeddings Explained** (30-45 min) - OPTIONAL
    - [Vector Embeddings Explained](https://weaviate.io/blog/vector-embeddings-explained)
-   - Can revisit if needed after hands-on experiments
+   - Can revisit after completing Deep Dive if needed
 
-6. [ ] **Pinecone: Vector Database** (45 min - 1 hour) - OPTIONAL [Skip for now]
+6. [ ] **Pinecone: Vector Database** (45 min - 1 hour) - OPTIONAL
    - [What is a Vector Database?](https://www.pinecone.io/learn/vector-database/)
-   - Can revisit if needed after hands-on experiments
+   - Can revisit after completing Deep Dive if needed
 
-**Exercise - Mental Model** ✅ (Built through Deep Dive, not formal diagram):
-- [x] Complete mental model of LLM pipeline (via Deep Dive video)
+**Exercise - Mental Model** 🔄 (Building through Deep Dive):
+- [x] Checkpoint 1-2: Pretraining & Post-Training flow (documented)
+- 🔄 Continuing: Add remaining sections as you watch
+- [ ] Final: Complete mental model after full video
   ```
   Raw Internet Text → Tokenization (BPE)
            ↓
@@ -69,12 +73,13 @@ semantic-search "how does job matching work?"
   Softmax → Next token prediction
 
   Then: Post-training on conversation data
+  And: Reinforcement Learning for alignment (RLHF)
            ↓
-  Base model → Helpful assistant simulator
+  Base model → Helpful, aligned assistant
   ```
-- [x] Document understanding in `notes/day2-deep-dive-notes.md` (400+ lines)
-- [x] Understanding of how embeddings fit into broader LLM pipeline
-- [x] Mental model complete - ready for hands-on experiments
+- [ ] Document complete understanding in `notes/day2-deep-dive-notes.md`
+- [ ] Understand full spectrum: pretraining → fine-tuning → RL → RLHF
+- [ ] Ready for Day 3 hands-on experiments
 
 **Deliverable**:
 - Mental model diagram
