@@ -1,8 +1,12 @@
-# Day 2: Andrej Karpathy Deep Dive - Running Notes
+# ⚠️ OUTDATED - See Date2-3-Deep-Dive-Notes.md Instead
+
+## Original File: Day 2: Andrej Karpathy Deep Dive - Running Notes
 
 **Video**: "Deep Dive into LLMs like ChatGPT"
 **Status**: In Progress (~2 hours in)
 **Strategy**: Taking detailed notes during viewing, will summarize in daily-log.md at end of day
+
+**NOTE**: This file has been consolidated with day3-reading-notes.md into a single comprehensive document: **Date2-3-Deep-Dive-Notes.md**. See that file for the complete, up-to-date notes. This file is kept for reference only and will be deleted after verification.
 
 ---
 
