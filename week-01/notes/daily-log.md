@@ -96,9 +96,9 @@
 
 ### Goals
 - [x] Claude Code Tutorial (Complete)
-- [ ] Complete mental model
-- [ ] Document understanding
-- [ ] Prepare for hands-on work
+- [x] Complete mental model (STRONG foundation via Deep Dive)
+- [x] Document understanding (400+ lines in running notes)
+- [x] Prepare for hands-on work ✅
 
 ### What I Actually Did ✅
 
@@ -109,27 +109,82 @@
    - Practiced git workflows and commit operations
    - Gained confidence with Claude Code as primary development partner
 
+2. **Andrej Karpathy: Deep Dive into LLMs like ChatGPT** (3.5+ hours) - STRATEGIC CHOICE
+   - **Decision**: Chose depth (3.5h deep dive) over quick intro (1h)
+   - **Checkpoint 1: Complete Pretraining Flow**
+     - Text → Tokenization (BPE: 256 bytes → 50k tokens)
+     - Token embeddings → 12-layer transformer with attention mechanism
+     - Query/Key/Value matrices, softmax, weighted aggregation
+     - 1.6B parameters for GPT-2
+     - End-to-end: "The big dog ran" → "fast" (full trace through model)
+     - Softmax breakthrough: exp(scores) → normalized probabilities
+
+   - **Checkpoint 2: Post-Training Revolution** (KEY INSIGHT)
+     - Base model = "internet document simulator" (predicts next token like web text)
+     - Post-training = teaches model to "think like helpful human labeler"
+     - InstructGPT paper (2022): quality labeling > quantity of data
+     - Three phases: conversation tokenization → human labeling → synthetic data evolution
+     - Labeling instructions (100+ pages): helpful, harmless, honest framework
+     - Modern trend (2023-2025): LLM-assisted refinement, not scratch writing
+     - Concrete examples: base model vs. instruct model on harmful requests
+     - The psychology: ChatGPT = statistical simulation of helpful experts
+
+3. **Created Running Notes Structure**
+   - Created `day2-deep-dive-notes.md` (400+ lines)
+   - Two complete checkpoints with diagrams and examples
+   - All resource links captured (Tiktokenizer, visualizers, papers)
+   - Approach validated: detailed notes during learning, summary in daily-log at end of day
+
 ### What I Learned
-- Claude Code has specialized agents for different task types
-- Agents optimize for specific workflows (Explore for codebase navigation, Plan for architecture)
-- Permission-based control gives clear visibility into what Claude Code can do
-- Built foundation for using Claude Code effectively throughout the 8-week journey
+**Pretraining Insights:**
+- Tokenization strategy is critical (BPE efficiency)
+- Attention mechanism = learned weighted lookup of relevant tokens
+- Softmax amplifies important differences (exp function is brilliant)
+- Parameters learned through gradient descent over millions of iterations
+- Training: weeks/months; Inference: milliseconds (frozen weights)
+
+**Post-Training Insights:**
+- The base model knows EVERYTHING (internet knowledge)
+- Post-training teaches it HOW to share that knowledge helpfully
+- Human labeling guidelines (100+ pages) encode company values
+- Modern systems use LLM assistance for data generation (meta!)
+- Quality > quantity: fewer high-quality labeled examples > many mediocre ones
+
+**Mental Model Achievement:**
+- Complete flow: Raw Internet → Tokens → Embeddings → 12 Transformer Layers → Output Distribution
+- Connection: Day 1 insights (RNNs → LSTMs → Transformers) manifest directly in GPT architecture
+- Why it works: Attention mechanism elegantly solves long-distance dependency problem
+- The revolution: Post-training is where the "magic" happens (not pretraining as commonly thought)
 
 ### Challenges
-- Learning new tool terminology and command syntax
-- Understanding when to use different agent types vs direct commands
+- None - the depth was exactly right for learning style
+- Initial concern about "wasting time" on deep dives was unfounded
+- Deep dives create understanding, not distraction
 
 ### Wins
-- ✅ Completed comprehensive Claude Code tutorial
-- ✅ Updated CLAUDE.md with agent documentation
-- ✅ Comfortable with git integration and commit workflows
-- ✅ Ready to leverage Claude Code as development partner for Week 1 project
+- ✅ Completed Deep Dive video (3.5+ hours) - chose depth over speed
+- ✅ Created comprehensive running notes (400+ lines, structured)
+- ✅ Built strong mental model of COMPLETE LLM pipeline (pretraining → post-training)
+- ✅ Understanding shifted from "how does it work?" to "why does it work this way?"
+- ✅ All learnings connected Day 1 insights to real implementation
+- ✅ Made 4 GitHub commits with progress
+- ✅ Prepared Day 3 hands-on work with solid foundation
 
-### Tomorrow's Plan
-- Watch Andrej Karpathy's LLM intro video (with fresh mind)
-- Create mental model diagram synthesizing all learning
-- Continue with optional readings (Jay Alammar, Weaviate, Pinecone) if energy allows
-- Prepare for Day 3 coding (semantic-code-search project)
+### Still to Complete (Optional - can skip if time-pressed)
+- Jay Alammar's Illustrated Word2Vec (visual reinforcement)
+- Weaviate: Vector Embeddings Explained (practical context)
+- Pinecone: Vector Database (architecture details)
+- Create formal mental model diagram
+
+**DECISION**: Skip the remaining readings. Day 3 hands-on will solidify knowledge better than more reading.
+
+### Tomorrow's Plan (Day 3)
+- Start hands-on experimentation
+- Experiment 1: Embeddings generation with OpenAI API
+- Experiment 2: Vector similarity calculations (cosine vs euclidean)
+- Experiment 3: ChromaDB local storage and retrieval
+- Experiment 4: Chunking strategy comparisons
+- Document findings in `notes/experiments.md`
 
 ---
 

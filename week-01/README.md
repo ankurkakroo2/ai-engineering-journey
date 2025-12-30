@@ -28,47 +28,53 @@ semantic-search "how does job matching work?"
 **Reading** (8-12 hours) - Follow this sequence:
 ⚠️ **Note**: Time estimates account for deep dives and rabbit holes. You learn by asking questions, not just skimming. Go deep.
 
-1. [ ] **Claude Code Quickstart** (30 min) - Learn your development tool first
+1. [x] **Claude Code Quickstart** (30 min) - Learn your development tool first ✅
    - [Claude Code Quickstart Guide](https://code.claude.com/docs/en/quickstart.md)
    - [Common Workflows Reference](https://code.claude.com/docs/en/common-workflows.md)
 
-2. [x] **Stack Overflow: Intuitive Intro to Embeddings** (45 min - 1 hour) - Conceptual foundation
+2. [x] **Stack Overflow: Intuitive Intro to Embeddings** (5+ hours with deep dives) ✅
    - [An Intuitive Introduction to Text Embeddings](https://stackoverflow.blog/2023/11/09/an-intuitive-introduction-to-text-embeddings/)
    - **Why this**: Clear analogies, explains high-dimensional spaces intuitively
-   - *Allow time for: distance metrics, cat/dog examples, re-reading sections*
+   - *Actual: Went deep on RNNs, LSTMs, Transformers - rabbit holes = understanding*
 
-3. [ ] **Jay Alammar's Illustrated Word2Vec** (30-45 min) - Visual learning
+3. [x] **Andrej Karpathy: Deep Dive into LLMs like ChatGPT** (3.5+ hours) ✅ [REPLACED LIGHTWEIGHT INTRO]
+   - STRATEGIC CHOICE: Chose depth over quick intro
+   - Checkpoint 1: Complete Pretraining Flow (tokenization → transformer → output)
+   - Checkpoint 2: Post-Training Revolution (base model → helpful assistant)
+   - All learnings documented in `notes/day2-deep-dive-notes.md`
+
+4. [ ] **Jay Alammar's Illustrated Word2Vec** (30-45 min) - OPTIONAL [Skip for now, hands-on will solidify]
    - [The Illustrated Word2Vec](https://jalammar.github.io/illustrated-word2vec/)
-   - **Why this**: Perfect for your "world view first" learning style
-   - *Allow time for: visualizations, working through examples, connections to previous concepts*
+   - Can revisit if needed after hands-on experiments
 
-4. [ ] **Weaviate: Vector Embeddings Explained** (30-45 min) - Semantic search context
+5. [ ] **Weaviate: Vector Embeddings Explained** (30-45 min) - OPTIONAL [Skip for now]
    - [Vector Embeddings Explained](https://weaviate.io/blog/vector-embeddings-explained)
-   - **Why this**: Connects embeddings to semantic search use cases
-   - *Allow time for: practical examples, asking "why" questions*
+   - Can revisit if needed after hands-on experiments
 
-5. [ ] **Pinecone: Vector Database** (45 min - 1 hour) - Architecture deep dive
+6. [ ] **Pinecone: Vector Database** (45 min - 1 hour) - OPTIONAL [Skip for now]
    - [What is a Vector Database?](https://www.pinecone.io/learn/vector-database/)
-   - **Why this**: Technical depth on how vector DBs work
-   - *Allow time for: indexing algorithms, HNSW/IVF deep dives*
+   - Can revisit if needed after hands-on experiments
 
-6. [ ] **Andrej Karpathy's LLM Intro** (1.5 hours) - Big picture understanding
-   - [Intro to Large Language Models](https://www.youtube.com/watch?v=zjkBMFhNj_g)
-   - **Why this**: Complete AI landscape and how embeddings fit in
-   - *Allow time for: pausing to think, rewatching sections, note-taking*
+**Exercise - Mental Model** ✅ (Built through Deep Dive, not formal diagram):
+- [x] Complete mental model of LLM pipeline (via Deep Dive video)
+  ```
+  Raw Internet Text → Tokenization (BPE)
+           ↓
+  Token Embeddings (768 dimensions)
+           ↓
+  12 Transformer Layers with Attention
+           ↓
+  Output Distribution (50k vocab scores)
+           ↓
+  Softmax → Next token prediction
 
-**Exercise** (2-4 hours):
-- [ ] Create mental map of AI stack (use excalidraw or paper)
+  Then: Post-training on conversation data
+           ↓
+  Base model → Helpful assistant simulator
   ```
-  Data Layer → Vector DBs (Pinecone, Qdrant, ChromaDB)
-  Model Layer → LLMs (OpenAI, Anthropic, open source)
-  Orchestration → LangChain, LlamaIndex, custom
-  Serving → APIs, MCP servers, agents
-  ```
-- [ ] Document understanding in `notes/mental-model.md`
-- [ ] Write down questions for deeper research
-- [ ] Try basic Claude Code commands and shortcuts
-- [ ] Synthesize: How do embeddings fit into the broader AI stack?
+- [x] Document understanding in `notes/day2-deep-dive-notes.md` (400+ lines)
+- [x] Understanding of how embeddings fit into broader LLM pipeline
+- [x] Mental model complete - ready for hands-on experiments
 
 **Deliverable**:
 - Mental model diagram
@@ -81,7 +87,7 @@ semantic-search "how does job matching work?"
 ### Day 3: Hands-On Experimentation with Core Concepts (8 hours)
 **Monday, Dec 30, 2025**
 
-**Goal**: Before building the full semantic search tool, you need to understand HOW each concept works in practice. This day focuses on hands-on experiments to validate your learning and build intuition.
+**Goal**: Validate your strong foundation from Day 1-2 learning through practical experiments. You now understand the theory deeply - time to see it work in code.
 
 **Setup** (1 hour):
 - [ ] Initialize project: `semantic-code-search`
@@ -95,6 +101,7 @@ semantic-search "how does job matching work?"
 - [ ] Test with: simple words (cat, dog), phrases (software engineering), code snippets
 - [ ] Observe: Do similar semantic meanings have similar embeddings?
 - [ ] Document in `notes/experiments.md`: Example embeddings and observations
+- **Theory connection**: See the 768-dim vectors from Deep Dive become real 1536-dim vectors
 
 **Experiment 2: Vector Similarity & Distance Metrics** (1.5 hours)
 - [ ] Implement cosine similarity calculation from scratch
@@ -102,6 +109,7 @@ semantic-search "how does job matching work?"
 - [ ] Compare cosine vs Euclidean distance
 - [ ] Verify: Does cosine distance match your intuition about semantic similarity?
 - [ ] Document in `notes/experiments.md`: Distance calculations and comparison
+- **Theory connection**: Validate the attention mechanism's softmax weighting in practice
 
 **Experiment 3: ChromaDB Storage & Retrieval** (1.5 hours)
 - [ ] Create ChromaDB collection locally
@@ -110,23 +118,26 @@ semantic-search "how does job matching work?"
 - [ ] Verify returned snippets are semantically relevant
 - [ ] Experiment with different numbers of results
 - [ ] Document in `notes/experiments.md`: Query results and relevance assessment
+- **Theory connection**: See post-training's "helpful assistant" concept in search results
 
 **Experiment 4: Chunking Strategies** (1.5 hours)
 - [ ] Extract 3 functions from a real codebase
 - [ ] Try multiple chunking approaches:
-  - Chunk by function
+  - Chunk by function (semantic unit)
   - Chunk by semantic blocks (5-10 lines)
   - Chunk by line count (20 lines per chunk)
 - [ ] Generate embeddings for each approach
 - [ ] Query same semantic question against each approach
 - [ ] Compare: Which chunking strategy gives best results?
 - [ ] Document in `notes/experiments.md`: Chunking comparison and trade-offs
+- **Key insight**: This is where understanding from Deep Dive becomes practical wisdom
 
 **Documentation & Synthesis** (1 hour):
 - [ ] Document all findings in `notes/experiments.md`
 - [ ] Create preliminary `notes/architecture.md` based on learnings
 - [ ] Write down insights about each concept
 - [ ] Identify potential edge cases for production build
+- [ ] Note: How Day 1-2 theory manifests in practical code
 
 ---
 
