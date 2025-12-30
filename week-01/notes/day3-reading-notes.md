@@ -14,17 +14,38 @@
 - How transformers process sequences in parallel
 - Concept of learned weights through backpropagation
 
-### From Day 2 (Deep Dive Video - Pretraining & Post-Training)
+### From Day 2 (Deep Dive Video - Pretraining & Post-Training & Beyond) 🔄 IN PROGRESS
+**Completed Checkpoints:**
 - Complete LLM pipeline: Text → Tokens → Embeddings → 12 Transformer Layers → Output
 - Tokenization via BPE (Byte Pair Encoding)
 - Query/Key/Value attention mechanism with softmax
 - Post-training teaches helpful assistant behavior
 - Base model = internet simulator → Post-training = helpful labeler simulator
 
-### Why Day 3 Matters
-- Convert theory to practical understanding
+**Coming from remaining video sections:**
+- How models hallucinate and what causes them
+- Tool use and how models leverage external knowledge
+- Knowledge/working memory limitations and patterns
+- Tokenization struggles with spelling and edge cases
+- Why model intelligence is "jagged" across domains
+- Full training spectrum: Supervised fine-tuning → Reinforcement Learning → RLHF
+- Real-world examples: DeepSeek-R1, AlphaGo, and alignment strategies
+- Practical applications and where to find/track LLMs
+
+### Why Day 3 Matters (After Complete Day 2 Foundation)
+**Theory to Practice Translation:**
+- You'll understand BOTH:
+  - How LLMs are trained (pretraining → fine-tuning → RL → RLHF alignment)
+  - Why they behave the way they do (hallucinations, tool use, knowledge limits)
+- You'll see how chunking strategy directly affects semantic search quality
+- You'll understand the tradeoffs: embedding dimensions, similarity metrics, storage approaches
+- You'll build intuition for Day 4-5 implementation decisions based on real constraints
+
+**Practical Validation:**
 - See embeddings, similarity metrics, storage, and chunking work in real code
-- Build intuition for decisions in Day 4-5 implementation
+- Connect "jagged intelligence" concept to code snippet relevance
+- Understand why certain chunking strategies fail (tokenization issues)
+- Build confidence that theory works in practice
 
 ---
 
