@@ -8,7 +8,7 @@
 ## Journey Overview
 
 ```
-Week 1: Foundations & Semantic Search          [________] 0%
+Week 1: Foundations & Semantic Search          [████░░░░] 45%
 Week 2: Vector Databases Deep Dive              [________] 0%
 Week 3: Production Vector Search                [________] 0%
 Week 4: RAG Systems - Foundations               [________] 0%
@@ -57,17 +57,43 @@ ai-engineering-journey/
     └── templates/            # Code templates
 ```
 
-## Current Week: Week 1
+## Current Week: Week 1 - In Progress (45% Complete)
 
-### This Week's Focus
-- Understand the AI engineering stack
-- Build semantic code search tool
-- Ship first production-ready project
+### ✅ Completed (Days 1-4)
+**Learning Phase (30+ hours)**
+- Day 1: Embeddings fundamentals - RNNs, LSTMs, Transformers (5+ hours)
+- Day 2-3: Deep dive into LLM architecture, training, and alignment (8+ hours)
+- Day 3: Finalized mental models and learning documentation
 
-### Quick Start
+**Planning Phase (In Progress)**
+- Day 4: Created Experiment 1 with 7 validation tests
+  - SPEC.md and README.md with clear methodology
+  - 7 test files (pre-training, semantic clustering, dimensionality, distance metrics, relationships, chunking, working memory)
+  - day4readingnotes.md with detailed learning objectives for each test
+  - Infrastructure: run_all.py, results.md template, requirements.txt
+
+### 🔄 In Progress (Day 5-7)
+- Day 5: Run 7 validation tests and document findings
+- Day 6: Build rag-code-qa project with validated architecture
+- Day 7: Finalize, polish, and ship
+
+### Learning Documentation
+- [day1-reading-notes.md](week-01/notes/day1-reading-notes.md) - Embeddings fundamentals
+- [Date2-3-Deep-Dive-Notes.md](week-01/notes/Date2-3-Deep-Dive-Notes.md) - LLM architecture & training
+- [day4readingnotes.md](week-01/notes/day4readingnotes.md) - Experiment learning objectives
+- [daily-log.md](week-01/notes/daily-log.md) - Day-by-day progress
+
+### Architecture Decisions (Informed by Experiments)
+- **Embedding Model**: text-embedding-3-small (1536 dimensions)
+- **Distance Metric**: Cosine similarity (optimal for embeddings)
+- **Chunking Strategy**: By function (semantic units > fixed-size)
+- **Multi-language Support**: Python, JavaScript, TypeScript
+- **Caching**: Safe and necessary (embeddings are pre-computed)
+
+### Next: Run Experiments
 ```bash
-cd week-01/notes
-# Start logging your daily progress
+cd week-01/project/experiments/01_embeddings
+python run_all.py
 ```
 
 ## Tech Stack

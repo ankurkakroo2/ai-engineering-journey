@@ -192,60 +192,137 @@
 ## Day 3 - Monday, Dec 30, 2025
 
 ### Goals
-- [ ] Set up development environment
-- [ ] Experiment with OpenAI embeddings
-- [ ] Test ChromaDB locally
-- [ ] Design system architecture
+- [x] Complete Andrej Karpathy Deep Dive video
+- [x] Finalize mental model and synthesis
+- [x] Prepare experiment structure for Day 4
 
-### What I Did
--
+### What I Actually Did ✅
+
+1. **Completed Karpathy Deep Dive Video** (Remaining 6+ sections)
+   - Hallucinations: Models filling gaps when context is insufficient
+   - Tool Use and Knowledge vs Working Memory: External tools vs parameters
+   - Models Need Tokens to Think: Chain-of-thought and intermediate steps
+   - Tokenization Revisited: Spelling struggles, non-English, edge cases
+   - Jagged Intelligence: Domain-specific competencies and failures
+   - Reinforcement Learning: From SFT to RLHF
+   - DeepSeek-R1, AlphaGo patterns, future directions
+
+2. **Finalized Learning Documentation**
+   - Updated day1-reading-notes.md with complete Day 1 insights
+   - Created Date2-3-Deep-Dive-Notes.md with all 8+ checkpoints
+   - Mapped theory to practical implications
+
+3. **Established Experiment 1 Framework**
+   - Defined 7-test structure mapping to Day 1-3 learning
+   - Identified what each test validates
+   - Connected theory to hands-on validation approach
 
 ### What I Learned
--
+**Integration Insights:**
+- Hallucinations stem from insufficient context, not model failure
+- Tool use and working memory are critical for accurate answers
+- Tokenization is a fundamental limitation affecting model behavior
+- Chain-of-thought works because intermediate tokens enable thinking
+- Intelligence is domain-specific, not uniform across all knowledge
+
+**Architecture Clarity:**
+- Why RAG systems work: providing working memory prevents hallucinations
+- Why chunking matters: good chunks = good context = good answers
+- Why caching works: embeddings are pre-computed and stable
 
 ### Challenges
--
+- None - learning trajectory was smooth and building well
 
 ### Wins
--
+- ✅ Completed comprehensive 8+ hour deep dive on transformer architecture
+- ✅ Created structured learning notes for future reference
+- ✅ Identified clear connection between theory and Day 4 experiments
+- ✅ Prepared detailed experiment framework with 7 validation tests
 
 ### Tomorrow's Plan
--
+- Implement 7 embeddings validation tests
+- Run experiments and document findings
+- Extract architecture decisions for rag-code-qa project
 
 ---
 
-## Day 4 - Tuesday, Dec 31, 2025
+## Day 4 - Tuesday, December 31, 2025
 
 ### Goals
-- [ ] Implement code parser
-- [ ] Build chunking logic
-- [ ] Create embedding pipeline
-- [ ] Implement search function
+- [x] Create Experiment 1 structure with clear specifications
+- [x] Define 7 validation tests mapping to Day 1-3 theory
+- [x] Prepare test templates and learning objectives
+- [x] Create detailed learning documentation
 
-### What I Did
--
+### What I Actually Did ✅
 
-### What I Learned
--
+1. **Established Experiment 1 Testing Standards**
+   - Created SPEC.md: Detailed PRD with purpose, background, and test specifications
+   - Created README.md: Setup guide and test execution instructions
+   - Defined clear methodology: theory → hypothesis → test → validation
+
+2. **Built 7 Test Files with Complete Structure**
+   - test_01_pretraining.py: Embeddings determinism (caching validation)
+   - test_02_semantic_clustering.py: Multi-language semantic similarity
+   - test_03_dimensionality.py: 1536 vs 384 dimension trade-offs
+   - test_04_distance_metrics.py: Cosine vs Euclidean comparison
+   - test_05_relationships.py: Programming paradigm clustering
+   - test_06_chunking.py: Function-level vs fixed-size chunking
+   - test_07_working_memory.py: RAG retrieval quality validation
+   - Each with large docstring headers mapping to Day 1-3 concepts
+
+3. **Created Supporting Infrastructure**
+   - run_all.py: Orchestrator to run all 7 tests in sequence
+   - results.md template: Structure for documenting findings
+   - requirements.txt: Dependencies (openai, numpy, python-dotenv)
+
+4. **Comprehensive Learning Documentation**
+   - day4readingnotes.md: Detailed notes for each of 7 tests
+   - Each test documented with core insight, what you learn, why it matters, connections to theory
+   - Format: practical learning objectives rather than abstract specifications
+
+### What I Learned (Through Testing Framework)
+**Test Design Insights:**
+- Test 1: Embeddings are pre-computed lookups → safe to cache
+- Test 2: Semantic meaning transcends syntax → multi-language works
+- Test 3: Dimensionality trade-off quantified (7% improvement)
+- Test 4: Cosine distance optimal for embeddings → semantic matching
+- Test 5: Language paradigms are encoded in embeddings
+- Test 6: Chunking strategy is highest-impact architectural decision
+- Test 7: RAG pattern works → good retrieval prevents hallucinations
+
+**Architecture Decisions Informed:**
+- Embedding model: text-embedding-3-small (1536 dims)
+- Distance metric: cosine similarity
+- Chunking strategy: by function (semantic units)
+- Caching: safe and necessary for performance
+- Multi-language support: viable across Python, JavaScript, TypeScript
 
 ### Challenges
--
+- None - standards-based approach clarified exactly what tests should do
+- Tangential learning on embedding strategies, multi-language architecture, chunking in real products
 
 ### Wins
--
+- ✅ Created standards-based testing framework mapping theory to practice
+- ✅ 7 tests with clear docstrings and TODO templates ready for implementation
+- ✅ Detailed learning objectives for each test prepared
+- ✅ Complete infrastructure for running and documenting experiments
+- ✅ Clear methodology established: validate theory before building architecture
 
 ### Tomorrow's Plan
--
+- Run all 7 tests with actual OpenAI API calls
+- Document findings in results.md
+- Extract concrete architecture decisions for rag-code-qa/
 
 ---
 
-## Day 5 - Wednesday, Jan 1, 2026
+## Day 5 - Wednesday, January 1, 2026
 
 ### Goals
-- [ ] Build CLI interface
-- [ ] Add Rich formatting
-- [ ] Write documentation
-- [ ] Test with real codebase
+- [ ] Run all 7 validation tests
+- [ ] Document findings in results.md
+- [ ] Extract architecture decisions
+- [ ] Prepare rag-code-qa implementation plan
 
 ### What I Did
 -
