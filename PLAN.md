@@ -229,13 +229,18 @@ Build the backend for a hypothetical SaaS that provides semantic search as a ser
 
 ---
 
-## Week 4: RAG Systems - Foundations
+## Week 4: Advanced Chunking & RAG Evaluation
 **Dates**: Jan 18 - Jan 24, 2026
-**Goal**: Build production RAG from scratch
+**Goal**: Master chunking strategies and RAG evaluation with a different domain than Week 1
 **Time Commitment**: 20-25 hours
 
-### Project: "Technical Documentation Assistant"
-Build a RAG system for any technical documentation (choose: Kubernetes, AWS, React, etc.)
+### Project: "Technical Documentation Assistant with Advanced Chunking"
+Build a RAG system for technical documentation with focus on chunking strategies and evaluation.
+
+**Difference from Week 1:**
+- Week 1: Code Q&A with simple function-level chunking
+- Week 4: Technical docs with **advanced chunking strategies** + **evaluation framework**
+- Different domain proves RAG generalization
 
 **What You'll Build**:
 ```bash
@@ -243,31 +248,65 @@ docs-bot ask "How do I configure horizontal pod autoscaling?"
 # Returns: Answer + source citations + confidence score
 ```
 
+**Part 1: Advanced Chunking Strategies** (8 hours)
+1. **Semantic Chunking**: Chunk based on meaning boundaries (not just lines/functions)
+2. **Sliding Window**: Overlap chunks for context preservation
+3. **Recursive Chunking**: Chunk at multiple levels (document → section → paragraph → sentence)
+4. **Hierarchical Chunking**: Preserve document structure (titles, sections)
+5. **Metadata Chunking**: Add rich metadata (source, context, headers)
+
+**Part 2: RAG Evaluation Framework** (10 hours)
+1. **Evaluation Metrics**:
+   - Answer Relevance (does answer address the query?)
+   - Context Relevance (are retrieved chunks relevant?)
+   - Faithfulness (is answer grounded in context?)
+   - Context Recall (did we retrieve all relevant chunks?)
+
+2. **Build Evaluation Pipeline**:
+   - Create test dataset with ground truth
+   - Implement metrics using RAGAS or custom
+   - A/B test different chunking strategies
+   - Document performance of each approach
+
+3. **Comparative Analysis**:
+   - Week 1 chunking (simple function-level) vs advanced strategies
+   - Measure accuracy improvement
+   - Cost/benefit analysis
+
+**Part 3: Retrieval Optimization** (2 hours)
+- Test different retrieval methods (similarity, MMR, reranking)
+- Compare performance with evaluation framework
+
 **Tech Stack**:
 - **Framework**: Build from scratch first (understand before abstracting)
-- **Vector DB**: Reuse Week 2/3 learnings
+- **Vector DB**: Reuse Week 2/3 learnings (Qdrant or pgvector)
 - **LLM**: Claude Sonnet (best for technical content)
-- **Eval**: RAGAS or custom eval framework
+- **Evaluation**: RAGAS or custom eval framework
+- **Domain**: Technical documentation (Kubernetes, AWS, React, etc.)
 
 **Key Learnings**:
-- Chunking strategies (semantic, sliding window, recursive)
+- **Advanced chunking strategies** (semantic, sliding window, recursive, hierarchical)
+- **Evaluation metrics** (relevance, faithfulness, context recall)
+- **How chunking affects RAG quality**
 - Retrieval methods (similarity, MMR, reranking)
-- Prompt engineering for RAG
+- A/B testing non-deterministic systems
 - Citation and source tracking
-- Evaluation metrics (answer relevance, faithfulness, context recall)
+- Prompt engineering for RAG
 
 **Deliverable**:
-- Working RAG system with >85% accuracy
-- Evaluation framework and metrics
-- Blog: "I Built a RAG System from Scratch: What LangChain Hides"
+- Working RAG system with evaluation framework
+- Comparison: Simple vs advanced chunking (with metrics)
+- Test dataset with ground truth answers
+- Blog: "I Built RAG Evaluation from Scratch: How to Measure What Matters"
 
 **Success Metrics**:
-- System achieves >85% accuracy on test questions
-- Can explain RAG architecture trade-offs
-- Evaluation framework is reusable
+- System achieves >85% accuracy with evaluation metrics
+- Can explain why chunking strategy matters (with data)
+- Evaluation framework is reusable across domains
+- Clear evidence that advanced chunking improves results
 
 **Key Innovation**:
-Build your own orchestration layer - understand what frameworks abstract away.
+Build evaluation framework to prove chunking impact - understand what actually matters in RAG systems.
 
 ---
 
@@ -494,7 +533,7 @@ API Gateway (FastAPI/tRPC)
 **Week 1**: "I Learned How LLMs Work, Then Built Code Q&A"
 **Week 2**: "Building a Knowledge Base: Vector DBs in Production"
 **Week 3**: "What I Learned Scaling Semantic Search to 100K+ Documents"
-**Week 4**: "RAG from Scratch: Lessons from Building Without Frameworks"
+**Week 4**: "I Built RAG Evaluation from Scratch: How to Measure What Matters"
 **Week 5**: "Advanced RAG + Fine-Tuning: The Complete Picture"
 **Week 6**: "MCP Servers: Extending Claude's Capabilities"
 **Week 7**: "Building Autonomous Agents That Actually Work"
