@@ -1,0 +1,31 @@
+# OpenAI Configuration
+openai:
+  model: text-embedding-3-small
+  api_key: ${OPENAI_API_KEY}
+
+# Anthropic Claude Configuration
+claude:
+  model: claude-sonnet-4
+  api_key: ${ANTHROPIC_API_KEY}
+
+# ChromaDB Configuration
+chromadb:
+  persist_directory: ./data/indexed
+  collection_name: code-chunks
+
+# Indexing Configuration
+indexing:
+  chunk_strategy: by_function
+  languages:
+    - python
+    - javascript
+    - typescript
+  top_k: 5
+
+# Cache Configuration
+cache:
+  enabled: true
+  directory: ./data/cache
+
+# Debug Configuration
+debug: false
