@@ -16,67 +16,119 @@
 
 ---
 
-## Week 1: Foundations & First Ship (AGGRESSIVE - Holiday Week)
+## Week 1: RAG-Powered Code Q&A Assistant
 **Dates**: Dec 28, 2025 - Jan 3, 2026
-**Goal**: Understand the AI stack landscape + ship your first semantic tool
+**Goal**: Ship a RAG-powered code assistant that answers questions (not just searches)
 **Time Commitment**: 40-50 hours
 
 ### Learning Objectives
-- ✅ Mental model of modern AI engineering stack
+- ✅ Deep understanding of LLM mechanics (pretraining → post-training → RL)
 - ✅ Embeddings, vector similarity, and semantic search fundamentals
+- ✅ RAG architecture (retrieval → working memory → generation)
+- ✅ Working memory vs knowledge (preventing hallucinations)
 - ✅ Development workflow with Claude Code
-- ✅ First production-ready tool shipped
+- ✅ First production-ready RAG tool shipped
 
 ### Day-by-Day Breakdown
 
-**Day 1-2: World View Building (16 hours)**
-Follow this learning sequence (8-12 hours reading + 2-4 hours synthesis):
-1. Claude Code Quickstart (30 min) - Learn your development tool
-2. Stack Overflow: Intuitive Intro to Embeddings (45 min - 1 hour) - Conceptual foundation
-3. Jay Alammar's Illustrated Word2Vec (30-45 min) - Visual understanding
-4. Weaviate: Vector Embeddings Explained (30-45 min) - Semantic search context
-5. Pinecone: Vector Database article (45 min - 1 hour) - Architecture deep dive
-6. Andrej Karpathy's "Intro to Large Language Models" (1.5 hours) - Big picture
+**Day 1-3: Deep Learning Foundation (24 hours)** ✅ COMPLETE
+**Actual path taken** (depth over breadth):
+1. ✅ Claude Code Quickstart (30 min)
+2. ✅ Stack Overflow: Embeddings Deep Dive (5+ hours with RNN/LSTM/Transformer rabbit holes)
+3. ✅ Andrej Karpathy's "Deep Dive into LLMs like ChatGPT" (3.5 hours - chose depth over 1.5hr intro)
+   - Complete pretraining flow (tokenization → transformers → output)
+   - Post-training revolution (base model → helpful assistant)
+   - Hallucinations, tool use, working memory vs knowledge
+   - Chain-of-thought and why tokens are thinking
+   - Reinforcement learning (DeepSeek-R1, thinking models, RLHF)
+   - Deep philosophical understanding (how numbers encode intelligence)
 
-**Learning flow**: Tool mastery → Intuition → Visualization → Application → Architecture → Ecosystem
+**Result**: 1,600+ lines of detailed notes capturing complete LLM understanding
 
-**⚠️ Important**: These time estimates account for your learning style - you learn by asking questions and exploring rabbit holes. Go deep. Understanding > Speed.
+**Day 4: Validate Theory + Start Building (8 hours)**
 
-**Exercise** (4-6 hours): Create a mental map of the AI stack:
-  ```
-  Data Layer → Vector DBs (Pinecone, Qdrant, ChromaDB)
-  Model Layer → LLMs (OpenAI, Anthropic, open source)
-  Orchestration → LangChain, LlamaIndex, custom
-  Serving → APIs, MCP servers, agents
-  ```
+*Morning: Quick Validation (3 hours)*
+- **Experiment 1**: Embeddings work (45 min) - validate semantic similarity
+- **Experiment 2**: ChromaDB retrieval (1.5 hrs) - test retrieval quality, decide chunking
+- **Experiment 3**: Basic RAG test (45 min) - retrieve → Claude → answer with citations
 
-**Day 3-5: Hands-On Shipping (24 hours)**
-- **Project**: "Semantic Code Search for This Job Search Agent"
-  - Index the job-search-agent codebase using embeddings
-  - Build a CLI tool: `semantic-search "how does job matching work?"`
-  - Returns relevant code snippets with context
+*Afternoon: Core Build (5 hours)*
+- Set up project structure
+- Implement code parser (extract functions/classes)
+- Build chunking logic (by function - semantic units)
+- Start embedding pipeline
 
-- **Tech Stack**:
-  - Python (leverage existing project knowledge)
-  - OpenAI embeddings API
-  - ChromaDB (local, simple to start)
-  - Click CLI (you already have it in job-search)
+**Day 5: Complete RAG Pipeline (8 hours)**
+- **Indexing Pipeline** (3 hrs): Parse → Chunk → Embed → Store in ChromaDB
+- **Retrieval Pipeline** (2 hrs): Query → Embed → Search → Retrieve top-k with context
+- **Generation Pipeline** (2 hrs): Retrieved code → prompt → Claude → answer with citations
+- **Testing** (1 hr): Test with job-search-agent codebase
 
-- **Key Learnings**:
-  - Document chunking strategies
-  - Embedding generation and storage
-  - Similarity search mechanics
-  - Prompt engineering for code understanding
+**Day 6: CLI + Polish (6 hours)**
+- Build Click CLI interface (`code-qa ask/explain/search/stats`)
+- Rich formatting (syntax highlighting, tables)
+- Configuration file support
+- Error handling and caching
+
+**Day 7: Documentation + Blog (6 hours)**
+- Comprehensive README with architecture diagram
+- Blog post: "I Learned How LLMs Work, Then Built Code Q&A"
+- Connect theory → practice (working memory, hallucination prevention, CoT)
+- Push to GitHub and share
+
+### What You'll Build
+
+```bash
+code-qa ask "How does the job matching algorithm work?"
+
+# Returns natural language answer with citations:
+# "The job matching algorithm works in three stages:
+#
+# 1. Candidate Scoring (JobMatcher.calculate_score):
+#    - Extracts skills from resume using NLP
+#    - Generates compatibility score (0-100)
+#
+# 2. Ranking (JobMatcher.rank_candidates):
+#    - Sorts candidates by score
+#
+# 3. Recommendation (JobMatcher.recommend):
+#    - Returns top N matches with explanations
+#
+# Sources:
+# - src/matcher/job_matcher.py:45-78
+# - src/matcher/scoring.py:12-34"
+
+code-qa explain <file.py>     # High-level explanation
+code-qa search "auth flow"    # Fallback to semantic search
+code-qa stats                 # Show indexed stats
+```
+
+**Tech Stack**:
+- Python
+- OpenAI embeddings API (text-embedding-3-small)
+- ChromaDB (local, simple for Week 1)
+- Claude Sonnet (best for code understanding)
+- Click CLI + Rich formatting
+
+**Key Learnings** (connects to deep dive):
+- Chunking by function → semantic units (from CoT understanding)
+- Working memory > knowledge → retrieval prevents hallucinations
+- Tool use pattern → orchestrator retrieves code, LLM processes
+- Prompt engineering → how to present code context
+- Citations → source tracking prevents hallucinations
 
 **Deliverable**:
-- GitHub repo: `semantic-code-search`
-- Blog post: "I Built Semantic Search for My Codebase in 3 Days"
-- Working CLI tool you'll actually use
+- GitHub repo: `code-qa-assistant`
+- Working CLI tool (installed via pip)
+- Blog post: "I Learned How LLMs Work, Then Built Code Q&A"
+- Indexed job-search-agent codebase (demo ready)
 
 **Success Metrics**:
-- Can explain embeddings to another engineer
-- Tool finds relevant code >80% accuracy
-- Code is clean, tested, documented
+- Can answer code questions accurately (>80%)
+- Provides proper citations (file:line)
+- Working CLI tool you'll actually use
+- Blog post connects deep theory → practice
+- Foundation for Weeks 4-5 RAG deep dives
 
 ### Resources for Week 1
 **Day 1-2 Reading (in order):**
@@ -219,43 +271,70 @@ Build your own orchestration layer - understand what frameworks abstract away.
 
 ---
 
-## Week 5: Advanced RAG Patterns
+## Week 5: Advanced RAG + Fine-Tuning
 **Dates**: Jan 25 - Jan 31, 2026
-**Goal**: Production-grade RAG with advanced techniques
+**Goal**: Production-grade RAG with advanced techniques + fine-tuning mastery
 **Time Commitment**: 20-25 hours
 
-### Project: "Adaptive RAG System"
-Enhance Week 4's project with advanced patterns.
+### Project: "Adaptive RAG System + Fine-Tuned Models"
+Enhance Week 4's project with advanced patterns AND learn when to fine-tune vs RAG.
 
-**What You'll Add**:
+**Part 1: Advanced RAG Patterns** (12 hours)
 1. **Query Routing**: Route questions to different retrieval strategies
 2. **Reranking**: Cohere/Cross-encoder reranking
 3. **Hypothetical Document Embeddings (HyDE)**: Generate hypothetical answers, embed those
 4. **Agentic RAG**: Agent decides when to retrieve vs. when to answer directly
 5. **Memory**: Conversation history and user preferences
 
+**Part 2: Fine-Tuning** (8 hours)
+1. **Fine-Tuning Basics**:
+   - When to fine-tune vs RAG (decision framework)
+   - Dataset preparation (format, quality, size)
+   - OpenAI fine-tuning API workflow
+
+2. **Hands-On Fine-Tuning**:
+   - Prepare dataset for specific domain (technical docs, code, etc.)
+   - Fine-tune GPT-3.5 or GPT-4 via OpenAI API
+   - Evaluate fine-tuned model vs base model
+   - Compare fine-tuned model vs RAG approach
+
+3. **Cost/Performance Analysis**:
+   - Training costs vs inference costs
+   - When RAG is cheaper (most cases)
+   - When fine-tuning wins (consistent domain, style)
+   - Hybrid approach (fine-tune + RAG)
+
 **Tech Stack**:
 - **Reranker**: Cohere Rerank API
 - **Agent Framework**: Build simple agent loop (don't use frameworks yet)
 - **Memory**: Redis for session state
+- **Fine-tuning**: OpenAI fine-tuning API
+- **Evaluation**: Custom eval framework + RAGAS
 - **Observability**: LangSmith or custom tracing
 
 **Key Learnings**:
 - Query understanding and classification
 - Multi-stage retrieval pipelines
 - Agent reasoning patterns
+- **Fine-tuning dataset preparation**
+- **Fine-tuning vs RAG trade-offs**
+- **When to use hybrid approaches**
 - Observability in non-deterministic systems
 - A/B testing RAG configurations
 
 **Deliverable**:
 - Production RAG with 3+ retrieval strategies
-- Comparative analysis of different approaches
-- Talk/blog: "Advanced RAG: Beyond Naive Retrieval"
+- Fine-tuned model for specific domain
+- Comparative analysis: Base vs RAG vs Fine-tuned vs Hybrid
+- Decision framework: "When to RAG, When to Fine-tune"
+- Blog: "Advanced RAG + Fine-Tuning: The Complete Picture"
 
 **Success Metrics**:
 - Can implement HyDE, query routing, reranking
+- Can fine-tune models via OpenAI API
+- Can articulate fine-tuning vs RAG trade-offs with data
 - System shows measurable improvement over basic RAG
-- Blog demonstrates mastery of advanced patterns
+- Blog demonstrates mastery of both approaches
 
 ---
 
@@ -397,22 +476,26 @@ API Gateway (FastAPI/tRPC)
 ## Success Metrics & Portfolio Story
 
 ### Technical Competencies Gained
+- ✅ Deep understanding of LLM mechanics (pretraining → post-training → RL)
 - ✅ Vector embeddings and similarity search
 - ✅ Production vector database operations
-- ✅ RAG system design and implementation
-- ✅ MCP server development
-- ✅ Autonomous agent architecture
+- ✅ RAG system design and implementation (basic → advanced)
+- ✅ **Fine-tuning models (when to fine-tune vs RAG)**
+- ✅ MCP server development and protocol mastery
+- ✅ Autonomous agent architecture (ReAct pattern)
 - ✅ Full-stack AI application development
 - ✅ System design for non-deterministic systems
+- ✅ Prompt engineering and chain-of-thought
+- ✅ Hallucination prevention strategies
 
 ### Portfolio Arc
 **"From Engineering Leader to AI Practitioner: 8 Weeks of Building"**
 
-**Week 1**: "Day 1: Why I'm Learning to Code Again"
+**Week 1**: "I Learned How LLMs Work, Then Built Code Q&A"
 **Week 2**: "Building a Knowledge Base: Vector DBs in Production"
 **Week 3**: "What I Learned Scaling Semantic Search to 100K+ Documents"
 **Week 4**: "RAG from Scratch: Lessons from Building Without Frameworks"
-**Week 5**: "Advanced RAG: When Simple Retrieval Isn't Enough"
+**Week 5**: "Advanced RAG + Fine-Tuning: The Complete Picture"
 **Week 6**: "MCP Servers: Extending Claude's Capabilities"
 **Week 7**: "Building Autonomous Agents That Actually Work"
 **Week 8**: "Shipping a Personal AI Platform: The Complete Journey"
@@ -508,13 +591,14 @@ API Gateway (FastAPI/tRPC)
    - Note questions
    - Get excited!
 
-3. **Start World View Building**
-   - Read the resources listed in Week 1
-   - Create your mental map
-   - Document learnings in week-01/notes/
+3. **Complete Deep Learning** ✅ DONE
+   - Karpathy Deep Dive complete (1,600+ lines of notes)
+   - Complete LLM understanding achieved
+   - Ready for implementation
 
-4. **Start coding**
-   - Begin semantic-code-search project
+4. **Start building RAG-powered Q&A**
+   - Begin code-qa-assistant project
+   - Validate theory through experiments
    - Use Claude Code actively
    - Ship by end of week!
 
