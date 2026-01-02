@@ -35,25 +35,29 @@ from dotenv import load_dotenv
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+
 def get_embedding(text, model="text-embedding-3-small"):
     """Get embedding from OpenAI API"""
     response = client.embeddings.create(input=text, model=model)
     return response.data[0].embedding
 
+
 def cosine_similarity(vec1, vec2):
     """Calculate cosine similarity between two vectors"""
     return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+
 
 def euclidean_distance(vec1, vec2):
     """Calculate Euclidean distance between two vectors"""
     return np.linalg.norm(np.array(vec1) - np.array(vec2))
 
+
 def test_distance_metrics():
     """Test distance metrics (cosine vs euclidean)"""
 
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("TEST 4: Distance Metrics - Cosine vs Euclidean")
-    print("="*70)
+    print("=" * 70)
 
     # Code examples: short, verbose equivalent, completely different
     code_short = "def sum(arr): return sum(arr)"
@@ -67,49 +71,58 @@ def test_distance_metrics():
     print("\nGetting embeddings...")
 
     # TODO: Get embeddings for all three code snippets
-    # emb_short = get_embedding(code_short)
-    # emb_long = get_embedding(code_long)
-    # emb_different = get_embedding(code_different)
+    emb_short = get_embedding(code_short)
+    emb_long = get_embedding(code_long)
+    emb_different = get_embedding(code_different)
 
     # TODO: Calculate cosine similarities
-    # cosine_short_long = cosine_similarity(emb_short, emb_long)
-    # cosine_short_diff = cosine_similarity(emb_short, emb_different)
+    cosine_short_long = cosine_similarity(emb_short, emb_long)
+    cosine_short_diff = cosine_similarity(emb_short, emb_different)
 
     # TODO: Calculate euclidean distances
-    # euclidean_short_long = euclidean_distance(emb_short, emb_long)
-    # euclidean_short_diff = euclidean_distance(emb_short, emb_different)
+    euclidean_short_long = euclidean_distance(emb_short, emb_long)
+    euclidean_short_diff = euclidean_distance(emb_short, emb_different)
 
     # TODO: Print cosine results
-    # print(f"\nCOSINE SIMILARITY:")
-    # print(f"  Short ↔ Long:      {cosine_short_long:.4f}")
-    # print(f"  Short ↔ Different: {cosine_short_diff:.4f}")
-    # cosine_distinguishes = cosine_short_long > cosine_short_diff
+    print(f"\nCOSINE SIMILARITY:")
+    print(f"  Short ↔ Long:      {cosine_short_long:.4f}")
+    print(f"  Short ↔ Different: {cosine_short_diff:.4f}")
+    cosine_distinguishes = cosine_short_long > cosine_short_diff
 
     # TODO: Print euclidean results
-    # print(f"\nEUCLIDEAN DISTANCE:")
-    # print(f"  Short ↔ Long:      {euclidean_short_long:.4f}")
-    # print(f"  Short ↔ Different: {euclidean_short_diff:.4f}")
-    # euclidean_distinguishes = euclidean_short_long < euclidean_short_diff
+    print(f"\nEUCLIDEAN DISTANCE:")
+    print(f"  Short ↔ Long:      {euclidean_short_long:.4f}")
+    print(f"  Short ↔ Different: {euclidean_short_diff:.4f}")
+    euclidean_distinguishes = euclidean_short_long < euclidean_short_diff
 
     # TODO: Print analysis
-    # print(f"\nCosine correctly identifies short/long as similar: {cosine_distinguishes}")
-    # print(f"Euclidean correctly identifies short/long as similar: {euclidean_distinguishes}")
+    print(
+        f"\nCosine correctly identifies short/long as similar: {cosine_distinguishes}"
+    )
+    print(
+        f"Euclidean correctly identifies short/long as similar: {euclidean_distinguishes}"
+    )
 
     # TODO: Verify cosine is better
-    # cosine_is_better = cosine_distinguishes and not euclidean_distinguishes
+    cosine_is_better = cosine_distinguishes and not euclidean_distinguishes
 
     # TODO: Print result
-    # print(f"\n{'✅ PASS' if cosine_is_better else '❌ FAIL'}: Cosine is better for semantic similarity: {cosine_is_better}")
+    print(
+        f"\n{'✅ PASS' if cosine_is_better else '❌ FAIL'}: Cosine is better for semantic similarity: {cosine_is_better}"
+    )
 
     # TODO: Print validation message
-    # if cosine_is_better:
-    #     print("\n✓ Validated: Cosine similarity > Euclidean for code (Day 1, lines 12-15)")
-    #     print("✓ Implication: ChromaDB using cosine is the right choice")
-    # else:
-    #     print("\n✗ Unexpected: Euclidean performed unexpectedly")
+    if cosine_is_better:
+        print(
+            "\n✓ Validated: Cosine similarity > Euclidean for code (Day 1, lines 12-15)"
+        )
+        print("✓ Implication: ChromaDB using cosine is the right choice")
+    else:
+        print("\n✗ Unexpected: Euclidean performed unexpectedly")
 
     # TODO: Return boolean result
-    # return cosine_is_better
+    return cosine_is_better
+
 
 if __name__ == "__main__":
     test_distance_metrics()
