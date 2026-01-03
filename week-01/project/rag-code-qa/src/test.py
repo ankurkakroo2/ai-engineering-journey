@@ -71,9 +71,10 @@ def print_stat(label, value, indent=0):
     print(f"{prefix}{Colors.YELLOW}{label}:{Colors.END} {Colors.BOLD}{value}{Colors.END}")
 
 
-def print_warning(text):
+def print_warning(text, indent=0):
     """Print warning message."""
-    print(f"{Colors.YELLOW}⚠ {text}{Colors.END}")
+    prefix = "  " * indent
+    print(f"{prefix}{Colors.YELLOW}⚠ {text}{Colors.END}")
 
 
 def visualize_function(func, index, total):
@@ -205,8 +206,8 @@ def stage_3_embedder(chunks):
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
         print_warning("OPENAI_API_KEY not set - skipping embedding stage")
-        print_info("To run this stage, set your API key:")
-        print_info("  export OPENAI_API_KEY='your-api-key-here'")
+        print_info("To run this stage, set your API key:", indent=1)
+        print_info("export OPENAI_API_KEY='your-api-key-here'", indent=1)
         return None
 
     print_section("Embedding (with cache-first strategy)...")
@@ -222,11 +223,20 @@ def stage_3_embedder(chunks):
     sample_chunks = chunks[:5]
     print_info(f"Embedding first {len(sample_chunks)} chunks (demo mode)")
 
-    embeddings = embed_chunks(sample_chunks, batch_size=5)
+    try:
+        embeddings = embed_chunks(sample_chunks, batch_size=5)
 
-    elapsed = time.time() - start_time
+        if not embeddings:
+            print_warning("No embeddings generated - API call may have failed")
+            return None
 
-    print_success(f"Generated {len(embeddings)} embeddings in {elapsed:.3f}s")
+        elapsed = time.time() - start_time
+        print_success(f"Generated {len(embeddings)} embeddings in {elapsed:.3f}s")
+    except Exception as e:
+        elapsed = time.time() - start_time
+        print_warning(f"Embedding failed after {elapsed:.3f}s: {str(e)}")
+        print_info("This is expected if API key is invalid or rate limit hit", indent=1)
+        return None
 
     # Show statistics
     stats = get_embedding_stats(embeddings)
@@ -260,14 +270,20 @@ def show_pipeline_summary(functions, chunks, embeddings):
     print_header("PIPELINE SUMMARY")
 
     print_section("Data Flow")
+
+    # Determine status for each stage
+    parser_status = f"{Colors.GREEN}✓ Parser{Colors.END}" if functions else f"{Colors.RED}✗ Parser{Colors.END}"
+    chunker_status = f"{Colors.GREEN}✓ Chunker{Colors.END}" if chunks else f"{Colors.RED}✗ Chunker{Colors.END}"
+    embedder_status = f"{Colors.GREEN}✓ Embedder{Colors.END}" if embeddings else f"{Colors.YELLOW}⊘ Embedder (skipped){Colors.END}"
+
     print(f"""
     {Colors.BOLD}Source File{Colors.END}
         ↓
-    {Colors.GREEN}Parser{Colors.END} → {len(functions) if functions else 0} functions
+    {parser_status} → {len(functions) if functions else 0} functions
         ↓
-    {Colors.GREEN}Chunker{Colors.END} → {len(chunks) if chunks else 0} chunks
+    {chunker_status} → {len(chunks) if chunks else 0} chunks
         ↓
-    {Colors.GREEN}Embedder{Colors.END} → {len(embeddings) if embeddings else 0} embeddings (1536-dim vectors)
+    {embedder_status} → {len(embeddings) if embeddings else 0} embeddings
         ↓
     {Colors.BOLD}Ready for Storage (ChromaDB){Colors.END}
     """)
@@ -326,15 +342,25 @@ def main():
 
         # Final message
         print_header("TEST COMPLETE")
-        print(f"{Colors.GREEN}{Colors.BOLD}✓ All stages executed successfully!{Colors.END}\n")
 
-        if not embeddings:
-            print(f"{Colors.YELLOW}Note: Set OPENAI_API_KEY to test the embedder stage{Colors.END}\n")
+        # Count successful stages
+        stages_completed = sum([bool(functions), bool(chunks), bool(embeddings)])
+        total_stages = 3
+
+        if stages_completed == total_stages:
+            print(f"{Colors.GREEN}{Colors.BOLD}✓ All {total_stages} stages completed successfully!{Colors.END}\n")
+        else:
+            print(f"{Colors.GREEN}{Colors.BOLD}✓ {stages_completed}/{total_stages} stages completed successfully{Colors.END}\n")
+            if not embeddings:
+                print(f"{Colors.YELLOW}  ⊘ Embedder stage skipped (set OPENAI_API_KEY to enable){Colors.END}\n")
 
     except Exception as e:
-        print(f"\n{Colors.RED}{Colors.BOLD}✗ Error: {e}{Colors.END}\n")
+        print_header("TEST FAILED")
+        print(f"{Colors.RED}{Colors.BOLD}✗ Pipeline error: {e}{Colors.END}\n")
+        print(f"{Colors.YELLOW}Stack trace:{Colors.END}")
         import traceback
         traceback.print_exc()
+        print()
         sys.exit(1)
 
 

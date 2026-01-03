@@ -33,6 +33,10 @@ import time
 import logging
 from typing import List, Optional
 from openai import OpenAI, OpenAIError, RateLimitError
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -43,11 +47,26 @@ INITIAL_RETRY_DELAY = 1.0
 
 
 def create_openai_client() -> OpenAI:
+    """
+    Create and return an OpenAI client instance.
+
+    Reads API key from OPENAI_API_KEY environment variable.
+    The .env file is automatically loaded at module import.
+
+    Returns:
+        OpenAI: Configured OpenAI client
+
+    Raises:
+        ValueError: If OPENAI_API_KEY is not set
+    """
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
         raise ValueError(
-            "OPENAI_API_KEY environment variable not set. "
-            "Please set it to your OpenAI API key."
+            "OPENAI_API_KEY environment variable not set.\n"
+            "Please create a .env file with your API key:\n"
+            "  1. Copy .env.example to .env\n"
+            "  2. Add your API key: OPENAI_API_KEY=sk-your-key-here\n"
+            "  3. Get your key from: https://platform.openai.com/api-keys"
         )
     return OpenAI(api_key=api_key)
 
