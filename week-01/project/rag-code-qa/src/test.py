@@ -25,6 +25,7 @@ sys.path.insert(0, str(project_root))
 from src.parser import parse_file
 from src.chunker import chunk_functions, get_chunking_stats
 from src.embedder import embed_chunks, get_embedding_stats, get_cache_stats
+from src.storage import StorageManager
 
 
 # ANSI color codes for beautiful output
@@ -265,7 +266,85 @@ def stage_3_embedder(chunks):
     return embeddings
 
 
-def show_pipeline_summary(functions, chunks, embeddings):
+def stage_4_storage(chunks, embeddings):
+    """Stage 4: Store embeddings in ChromaDB."""
+    print_header("STAGE 4: STORAGE - Persist Embeddings in Vector Database")
+
+    if not embeddings:
+        print_warning("No embeddings to store - skipping storage stage")
+        return None
+
+    print_info(f"Input: {len(chunks)} chunks + {len(embeddings)} embeddings")
+
+    print_section("Initializing ChromaDB...")
+
+    try:
+        # Initialize storage manager (embedded mode)
+        manager = StorageManager(
+            persist_directory="./data/indexed",
+            collection_name="code-chunks"
+        )
+        print_success("ChromaDB initialized (embedded mode)")
+        print_info("Storage path: ./data/indexed/", indent=1)
+        print_info("Distance metric: cosine similarity", indent=1)
+
+    except Exception as e:
+        print_warning(f"Failed to initialize ChromaDB: {e}")
+        return None
+
+    print_section("Storing chunks with embeddings (upsert)...")
+    start_time = time.time()
+
+    try:
+        # Store only the chunks we embedded (first 5)
+        sample_chunks = chunks[:len(embeddings)]
+        count = manager.store_chunks(sample_chunks, embeddings)
+
+        elapsed = time.time() - start_time
+        print_success(f"Stored {count} entries in {elapsed:.3f}s")
+
+    except Exception as e:
+        elapsed = time.time() - start_time
+        print_warning(f"Storage failed after {elapsed:.3f}s: {str(e)}")
+        return None
+
+    # Get collection statistics
+    print_section("Collection Statistics")
+
+    try:
+        stats = manager.get_stats()
+
+        print_stat("Total entries", stats.total_entries)
+        print_stat("Total files", stats.total_files)
+        print_stat("Languages", ', '.join(stats.languages) if stats.languages else 'none')
+        print_stat("Collection name", stats.collection_name)
+        print_stat("Dimension", stats.dimension)
+        print_stat("Distance metric", stats.distance_metric)
+        print_stat("Avg per file", f"{stats.avg_entries_per_file:.1f}")
+
+    except Exception as e:
+        print_warning(f"Failed to get stats: {e}")
+
+    # Show sample stored entries
+    print_section("Sample Stored Entries (first 3)")
+
+    try:
+        entries = manager.list_entries(limit=3)
+
+        for i, entry in enumerate(entries, 1):
+            print(f"\n{Colors.BOLD}[{i}/{len(entries)}] {entry.function_name}{Colors.END}")
+            print(f"  {Colors.CYAN}ID:{Colors.END} {entry.id[:16]}...")
+            print(f"  {Colors.CYAN}Location:{Colors.END} {entry.location}")
+            print(f"  {Colors.CYAN}Language:{Colors.END} {entry.language}")
+            print(f"  {Colors.CYAN}Embedding dim:{Colors.END} {entry.embedding_dimension}")
+
+    except Exception as e:
+        print_warning(f"Failed to list entries: {e}")
+
+    return manager
+
+
+def show_pipeline_summary(functions, chunks, embeddings, storage_manager):
     """Show overall pipeline summary."""
     print_header("PIPELINE SUMMARY")
 
@@ -275,6 +354,7 @@ def show_pipeline_summary(functions, chunks, embeddings):
     parser_status = f"{Colors.GREEN}✓ Parser{Colors.END}" if functions else f"{Colors.RED}✗ Parser{Colors.END}"
     chunker_status = f"{Colors.GREEN}✓ Chunker{Colors.END}" if chunks else f"{Colors.RED}✗ Chunker{Colors.END}"
     embedder_status = f"{Colors.GREEN}✓ Embedder{Colors.END}" if embeddings else f"{Colors.YELLOW}⊘ Embedder (skipped){Colors.END}"
+    storage_status = f"{Colors.GREEN}✓ Storage{Colors.END}" if storage_manager else f"{Colors.YELLOW}⊘ Storage (skipped){Colors.END}"
 
     print(f"""
     {Colors.BOLD}Source File{Colors.END}
@@ -285,7 +365,9 @@ def show_pipeline_summary(functions, chunks, embeddings):
         ↓
     {embedder_status} → {len(embeddings) if embeddings else 0} embeddings
         ↓
-    {Colors.BOLD}Ready for Storage (ChromaDB){Colors.END}
+    {storage_status} → ChromaDB (embedded mode)
+        ↓
+    {Colors.BOLD}Ready for Retrieval & Generation{Colors.END}
     """)
 
     print_section("Key Insights")
@@ -308,11 +390,19 @@ def show_pipeline_summary(functions, chunks, embeddings):
         if stats['cached_count'] > 0:
             print_info(f"✓ Saved {stats['cached_count']} API calls via caching")
 
+    if storage_manager:
+        try:
+            stats = storage_manager.get_stats()
+            print_info("✓ Storage persisted embeddings to ChromaDB")
+            print_info(f"✓ Collection has {stats.total_entries} entries")
+            print_info(f"✓ Using {stats.distance_metric} similarity")
+        except:
+            pass
+
     print_section("Next Steps")
-    print_info("1. Storage: Insert embeddings into ChromaDB")
-    print_info("2. Retriever: Implement similarity search")
-    print_info("3. Generator: Use Claude to generate answers")
-    print_info("4. CLI: Build command-line interface")
+    print_info("1. Retriever: Implement similarity search")
+    print_info("2. Generator: Use Claude to generate answers")
+    print_info("3. CLI: Build command-line interface")
 
 
 def main():
@@ -322,7 +412,7 @@ def main():
     print("║                                                                           ║")
     print("║                   RAG PIPELINE TEST & VISUALIZATION                       ║")
     print("║                                                                           ║")
-    print("║                    Components 1-3: Parser → Chunker → Embedder           ║")
+    print("║            Components 1-4: Parser → Chunker → Embedder → Storage         ║")
     print("║                                                                           ║")
     print("╚═══════════════════════════════════════════════════════════════════════════╝")
     print(f"{Colors.END}\n")
@@ -337,22 +427,28 @@ def main():
         # Stage 3: Embedder
         embeddings = stage_3_embedder(chunks)
 
+        # Stage 4: Storage
+        storage_manager = stage_4_storage(chunks, embeddings)
+
         # Summary
-        show_pipeline_summary(functions, chunks, embeddings)
+        show_pipeline_summary(functions, chunks, embeddings, storage_manager)
 
         # Final message
         print_header("TEST COMPLETE")
 
         # Count successful stages
-        stages_completed = sum([bool(functions), bool(chunks), bool(embeddings)])
-        total_stages = 3
+        stages_completed = sum([bool(functions), bool(chunks), bool(embeddings), bool(storage_manager)])
+        total_stages = 4
 
         if stages_completed == total_stages:
             print(f"{Colors.GREEN}{Colors.BOLD}✓ All {total_stages} stages completed successfully!{Colors.END}\n")
         else:
             print(f"{Colors.GREEN}{Colors.BOLD}✓ {stages_completed}/{total_stages} stages completed successfully{Colors.END}\n")
             if not embeddings:
-                print(f"{Colors.YELLOW}  ⊘ Embedder stage skipped (set OPENAI_API_KEY to enable){Colors.END}\n")
+                print(f"{Colors.YELLOW}  ⊘ Embedder stage skipped (set OPENAI_API_KEY to enable){Colors.END}")
+            if not storage_manager:
+                print(f"{Colors.YELLOW}  ⊘ Storage stage skipped (no embeddings to store){Colors.END}")
+            print()
 
     except Exception as e:
         print_header("TEST FAILED")
