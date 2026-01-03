@@ -26,6 +26,7 @@ from src.parser import parse_file
 from src.chunker import chunk_functions, get_chunking_stats
 from src.embedder import embed_chunks, get_embedding_stats, get_cache_stats
 from src.storage import StorageManager
+from src.retriever import retrieve
 
 
 # ANSI color codes for beautiful output
@@ -344,7 +345,84 @@ def stage_4_storage(chunks, embeddings):
     return manager
 
 
-def show_pipeline_summary(functions, chunks, embeddings, storage_manager):
+def stage_5_retrieval(storage_manager):
+    """Stage 5: Retrieve similar chunks for a sample query."""
+    print_header("STAGE 5: RETRIEVER - Semantic Search")
+
+    if not storage_manager:
+        print_warning("No storage manager - skipping retrieval stage")
+        return None
+
+    # Check if collection has data
+    try:
+        stats = storage_manager.get_stats()
+        if stats.total_entries == 0:
+            print_warning("ChromaDB collection is empty - skipping retrieval")
+            return None
+    except:
+        print_warning("Could not check collection stats - skipping retrieval")
+        return None
+
+    # Sample query
+    query = "How does the visitor pattern work in the parser?"
+    print_info(f"Query: '{query}'")
+
+    print_section("Retrieving similar code chunks...")
+    start_time = time.time()
+
+    try:
+        results = retrieve(query, top_k=3, min_score=0.3)
+        elapsed = time.time() - start_time
+
+        if not results:
+            print_warning(f"No results found above threshold 0.3 in {elapsed:.3f}s")
+            print_info("This may happen if the query doesn't match indexed code", indent=1)
+            return []
+
+        print_success(f"Retrieved {len(results)} results in {elapsed:.3f}s")
+
+    except Exception as e:
+        elapsed = time.time() - start_time
+        print_warning(f"Retrieval failed after {elapsed:.3f}s: {str(e)}")
+        print_info("This is expected if OpenAI API key is not set", indent=1)
+        return None
+
+    # Show results
+    print_section("Retrieved Results (top 3)")
+
+    for i, result in enumerate(results, 1):
+        print(f"\n{Colors.BOLD}[{i}/{len(results)}] {result.function_name}{Colors.END}")
+        print(f"  {Colors.CYAN}Score:{Colors.END} {result.score:.3f} ({result.relevance_category})")
+        print(f"  {Colors.CYAN}Location:{Colors.END} {result.location}")
+        print(f"  {Colors.CYAN}Language:{Colors.END} {result.language}")
+
+        # Show content preview
+        lines = result.content.split('\n')[:2]
+        if lines:
+            print(f"  {Colors.CYAN}Preview:{Colors.END}")
+            for line in lines:
+                print(f"    {Colors.YELLOW}{line[:70]}{'...' if len(line) > 70 else ''}{Colors.END}")
+
+    # Show statistics
+    print_section("Retrieval Statistics")
+
+    if results:
+        scores = [r.score for r in results]
+        print_stat("Results returned", len(results))
+        print_stat("Score range", f"{min(scores):.3f} - {max(scores):.3f}")
+        print_stat("Avg score", f"{sum(scores)/len(scores):.3f}")
+
+        # Count by relevance
+        highly_relevant = len([r for r in results if r.is_highly_relevant])
+        moderately_relevant = len([r for r in results if r.is_relevant and not r.is_highly_relevant])
+
+        print_stat("Highly relevant (0.7+)", highly_relevant)
+        print_stat("Moderately relevant (0.5-0.7)", moderately_relevant)
+
+    return results
+
+
+def show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrieval_results):
     """Show overall pipeline summary."""
     print_header("PIPELINE SUMMARY")
 
@@ -355,6 +433,7 @@ def show_pipeline_summary(functions, chunks, embeddings, storage_manager):
     chunker_status = f"{Colors.GREEN}✓ Chunker{Colors.END}" if chunks else f"{Colors.RED}✗ Chunker{Colors.END}"
     embedder_status = f"{Colors.GREEN}✓ Embedder{Colors.END}" if embeddings else f"{Colors.YELLOW}⊘ Embedder (skipped){Colors.END}"
     storage_status = f"{Colors.GREEN}✓ Storage{Colors.END}" if storage_manager else f"{Colors.YELLOW}⊘ Storage (skipped){Colors.END}"
+    retrieval_status = f"{Colors.GREEN}✓ Retriever{Colors.END}" if retrieval_results is not None and retrieval_results != [] else f"{Colors.YELLOW}⊘ Retriever (skipped){Colors.END}"
 
     print(f"""
     {Colors.BOLD}Source File{Colors.END}
@@ -367,7 +446,9 @@ def show_pipeline_summary(functions, chunks, embeddings, storage_manager):
         ↓
     {storage_status} → ChromaDB (embedded mode)
         ↓
-    {Colors.BOLD}Ready for Retrieval & Generation{Colors.END}
+    {retrieval_status} → {len(retrieval_results) if retrieval_results else 0} results
+        ↓
+    {Colors.BOLD}Ready for Generation{Colors.END}
     """)
 
     print_section("Key Insights")
@@ -399,10 +480,19 @@ def show_pipeline_summary(functions, chunks, embeddings, storage_manager):
         except:
             pass
 
+    if retrieval_results is not None and retrieval_results != []:
+        if retrieval_results:
+            print_info("✓ Retriever performed semantic search")
+            print_info(f"✓ Found {len(retrieval_results)} relevant results")
+            scores = [r.score for r in retrieval_results]
+            print_info(f"✓ Score range: {min(scores):.3f} - {max(scores):.3f}")
+        else:
+            print_info("⊘ Retriever ran but found no results above threshold")
+
     print_section("Next Steps")
-    print_info("1. Retriever: Implement similarity search")
-    print_info("2. Generator: Use Claude to generate answers")
-    print_info("3. CLI: Build command-line interface")
+    print_info("1. Generator: Use Claude to generate answers")
+    print_info("2. CLI: Build command-line interface")
+    print_info("3. End-to-end testing")
 
 
 def main():
@@ -412,7 +502,7 @@ def main():
     print("║                                                                           ║")
     print("║                   RAG PIPELINE TEST & VISUALIZATION                       ║")
     print("║                                                                           ║")
-    print("║            Components 1-4: Parser → Chunker → Embedder → Storage         ║")
+    print("║      Components 1-5: Parser → Chunker → Embedder → Storage → Retriever  ║")
     print("║                                                                           ║")
     print("╚═══════════════════════════════════════════════════════════════════════════╝")
     print(f"{Colors.END}\n")
@@ -430,15 +520,24 @@ def main():
         # Stage 4: Storage
         storage_manager = stage_4_storage(chunks, embeddings)
 
+        # Stage 5: Retriever
+        retrieval_results = stage_5_retrieval(storage_manager)
+
         # Summary
-        show_pipeline_summary(functions, chunks, embeddings, storage_manager)
+        show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrieval_results)
 
         # Final message
         print_header("TEST COMPLETE")
 
         # Count successful stages
-        stages_completed = sum([bool(functions), bool(chunks), bool(embeddings), bool(storage_manager)])
-        total_stages = 4
+        stages_completed = sum([
+            bool(functions),
+            bool(chunks),
+            bool(embeddings),
+            bool(storage_manager),
+            retrieval_results is not None
+        ])
+        total_stages = 5
 
         if stages_completed == total_stages:
             print(f"{Colors.GREEN}{Colors.BOLD}✓ All {total_stages} stages completed successfully!{Colors.END}\n")
@@ -448,6 +547,8 @@ def main():
                 print(f"{Colors.YELLOW}  ⊘ Embedder stage skipped (set OPENAI_API_KEY to enable){Colors.END}")
             if not storage_manager:
                 print(f"{Colors.YELLOW}  ⊘ Storage stage skipped (no embeddings to store){Colors.END}")
+            if retrieval_results is None:
+                print(f"{Colors.YELLOW}  ⊘ Retriever stage skipped (no storage or API key){Colors.END}")
             print()
 
     except Exception as e:
