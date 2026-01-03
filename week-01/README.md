@@ -41,8 +41,8 @@ semantic-search "how does job matching work?"
    - STRATEGIC CHOICE: Chose depth over quick 1-hour intro
    - ✅ Checkpoint 1: Complete Pretraining Flow (tokenization → transformer → output)
    - ✅ Checkpoint 2: Post-Training Revolution (base model → helpful assistant)
-   - 🔄 Currently watching: Hallucinations section and beyond
-   - Still to watch: Tool use, knowledge, spelling, jagged intelligence, fine-tuning, RL, RLHF, future directions
+   - ✅ Currently watching: Hallucinations section and beyond
+   - ✅ Still to watch: Tool use, knowledge, spelling, jagged intelligence, fine-tuning, RL, RLHF, future directions
    - All learnings documented in `notes/day2-deep-dive-notes.md` (updated as you watch)
 
 4. [ ] **Jay Alammar's Illustrated Word2Vec** (30-45 min) - OPTIONAL

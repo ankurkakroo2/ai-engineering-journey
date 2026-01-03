@@ -2,8 +2,8 @@
 
 A CLI tool that answers natural language questions about codebases using Retrieval-Augmented Generation (RAG).
 
-**Status**: 🚧 In Development (Component 2/7 Complete - **29% progress**)
-**Learning Project**: Week 1, Day 5 of 8-week AI Engineering Journey
+**Status**: 🚧 In Development (Component 3/7 Complete - **43% progress**)
+**Learning Project**: Week 1, Day 5-6 of 8-week AI Engineering Journey
 
 ---
 
@@ -108,14 +108,31 @@ Answer with Citations
 
 📄 **Documentation**: See [src/chunker/README.md](src/chunker/README.md) for detailed docs and [src/chunker/LLD.md](src/chunker/LLD.md) for design diagrams
 
-### 📋 Component 3: Embedder (Planned)
-**File**: `src/embedder.py`
-**What it will do**: Generate embeddings via OpenAI API with caching
+### ✅ Component 3: Embedder (Complete)
+**Module**: `src/embedder/` (modular package)
+**Status**: ✅ Implemented and tested
+**What it does**: Generates vector embeddings from chunks using OpenAI API with intelligent caching
 
-**Key decisions**:
-- Model: text-embedding-3-small (1536 dimensions)
-- Caching enabled (embeddings are deterministic)
-- Batch API calls for efficiency
+**Module structure**:
+- `models.py` - EmbeddingResult dataclass
+- `api_client.py` - OpenAI API integration with error handling
+- `cache.py` - File-based and in-memory caching layers
+- `embedder.py` - Main orchestrator (batch processing + rate limiting)
+- `__init__.py` - Public API
+- `README.md` - Comprehensive documentation (16K)
+- `LLD.md` - Low-level design diagrams (12K)
+
+**Key features**:
+- Batch processing for efficiency (~10x overhead reduction)
+- Deterministic caching (same input = identical output, always)
+- Exponential backoff for rate limit handling
+- Dual-layer caching (in-memory for speed + file-based for persistence)
+- Comprehensive error handling and retry logic
+- 1536-dimensional vectors (text-embedding-3-small)
+
+**Test results**: Caching validated, batch processing verified, rate limit handling tested
+
+📄 **Documentation**: See [src/embedder/README.md](src/embedder/README.md) for detailed docs and [src/embedder/LLD.md](src/embedder/LLD.md) for design diagrams
 
 ### 📋 Component 4: Storage (Planned)
 **File**: `src/storage.py`
@@ -182,8 +199,16 @@ rag-code-qa/
 │   │   ├── test_chunker_manual.py (Manual test suite)
 │   │   ├── README.md        (461 lines - learning context + examples)
 │   │   └── LLD.md           (Flow diagrams + component reference)
-│   ├── embedder.py          📋 Next - OpenAI API + caching
-│   ├── storage.py           📋 Planned - ChromaDB management
+│   ├── embedder/            ✅ Complete (modular package)
+│   │   ├── __init__.py      (Public API)
+│   │   ├── models.py        (EmbeddingResult dataclass)
+│   │   ├── api_client.py    (OpenAI API integration)
+│   │   ├── cache.py         (Dual-layer caching: in-memory + file-based)
+│   │   ├── embedder.py      (Orchestrator: batch processing + rate limiting)
+│   │   ├── test_embedder_manual.py (Manual test suite)
+│   │   ├── README.md        (16K - learning context + examples)
+│   │   └── LLD.md           (12K - flow diagrams + reference)
+│   ├── storage.py           📋 Next - ChromaDB management + persistence
 │   ├── retriever.py         📋 Planned - Similarity search
 │   ├── generator.py         📋 Planned - Claude + context
 │   └── cli.py               📋 Planned - Click interface
@@ -206,7 +231,7 @@ rag-code-qa/
 └── requirements.txt
 ```
 
-**Progress**: 2/7 components complete (29%)
+**Progress**: 3/7 components complete (43%)
 
 ---
 
@@ -307,7 +332,7 @@ pytest-cov>=4.0.0
 
 ---
 
-**Last Updated**: January 2, 2026 (Day 5)
-**Current Focus**: Parser ✅ & Chunker ✅ complete, embedder next
-**Progress**: 2/7 components (29%) - modular architecture validated
+**Last Updated**: January 3, 2026 (Day 5-6)
+**Current Focus**: Parser ✅ & Chunker ✅ & Embedder ✅ complete, storage next
+**Progress**: 3/7 components (43%) - modular architecture validated through three production modules
 **Learning Mode**: Building step-by-step with comprehensive documentation
