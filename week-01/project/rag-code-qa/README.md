@@ -2,8 +2,8 @@
 
 A CLI tool that answers natural language questions about codebases using Retrieval-Augmented Generation (RAG).
 
-**Status**: 🚧 In Development (Component 1/7 Complete)
-**Learning Project**: Week 1 of 8-week AI Engineering Journey
+**Status**: 🚧 In Development (Component 2/7 Complete - **29% progress**)
+**Learning Project**: Week 1, Day 5 of 8-week AI Engineering Journey
 
 ---
 
@@ -54,41 +54,59 @@ Answer with Citations
 
 ### ✅ Component 1: Parser (Complete)
 **Module**: `src/parser/` (modular package)
-**Status**: Tested and working
+**Status**: ✅ Implemented and tested
 **What it does**: Extracts functions from Python/JS/TS files with metadata
 
 **Module structure**:
 - `models.py` - ParsedFunction dataclass
 - `python_parser.py` - AST-based Python parsing
 - `javascript_parser.py` - Regex-based JS/TS parsing
-- `dispatcher.py` - File extension routing
+- `dispatcher.py` - File extension routing strategy
 - `directory_walker.py` - Recursive directory traversal
+- `__init__.py` - Public API
 - `README.md` - Comprehensive documentation (474 lines)
 - `LLD.md` - Low-level design diagrams (635 lines)
 
 **Key features**:
 - Python parsing using AST (handles nested functions, class methods, async)
-- JavaScript/TypeScript parsing using regex
-- Recursive directory traversal with smart filtering
-- Graceful error handling
-- Preserves docstrings and line numbers
-- Well-documented with learning context
+- JavaScript/TypeScript parsing using regex patterns
+- Recursive directory traversal with smart filtering (skip node_modules, __pycache__, .git)
+- Graceful error handling (one bad file doesn't crash pipeline)
+- Preserves docstrings and line numbers for citations
+- Absolute file paths for reliability
 - Detailed LLD diagrams with file/method references
 
-**Test results**: All edge cases handled, modular structure verified
+**Test results**: All edge cases handled, modular structure verified, ready for chunker input
 
-📄 **Documentation**: See [src/parser/README.md](src/parser/README.md) for detailed documentation and [LLD.md](src/parser/LLD.md) for design diagrams
+📄 **Documentation**: See [src/parser/README.md](src/parser/README.md) for detailed docs and [src/parser/LLD.md](src/parser/LLD.md) for design diagrams
 
-### ⏳ Component 2: Chunker (Next)
-**File**: `src/chunker.py`
-**Status**: Not started
-**What it will do**: Convert ParsedFunction objects into chunks for embedding
+### ✅ Component 2: Chunker (Complete)
+**Module**: `src/chunker/` (modular package)
+**Status**: ✅ Implemented and tested
+**What it does**: Converts ParsedFunction objects into embeddable chunks
 
-**Key decisions** (from REQUIREMENTS.md):
-- One chunk per function (semantic unit preservation)
-- Format: `# {file_path}:{start_line}\n{code}`
-- Deterministic chunk IDs from content hash
-- Include docstrings in chunk content
+**Module structure**:
+- `models.py` - Chunk dataclass with deterministic IDs
+- `formatter.py` - Three-layer formatting + intelligent truncation
+- `token_counter.py` - tiktoken integration (accurate OpenAI tokenization)
+- `hasher.py` - SHA-256 deterministic ID generation
+- `chunker.py` - Main orchestrator (format → count → hash)
+- `__init__.py` - Public API
+- `README.md` - Comprehensive documentation (461 lines)
+- `LLD.md` - Low-level design diagrams with complete flow
+
+**Key features**:
+- Three-layer format: location (spatial context) + docstring (semantics) + code (implementation)
+- Deterministic content-based IDs enable change detection and incremental updates
+- Accurate token counting using tiktoken (matches OpenAI's tokenizer)
+- Intelligent truncation preserves semantic units (header + docstring, truncate code)
+- 8000 token limit validation with graceful degradation
+- Metadata preservation for citations (file path, line numbers, language, etc.)
+- Batch processing with statistics and warnings
+
+**Test results**: Metadata preservation verified, token counting accurate, deterministic ID generation validated
+
+📄 **Documentation**: See [src/chunker/README.md](src/chunker/README.md) for detailed docs and [src/chunker/LLD.md](src/chunker/LLD.md) for design diagrams
 
 ### 📋 Component 3: Embedder (Planned)
 **File**: `src/embedder.py`
@@ -143,31 +161,52 @@ Answer with Citations
 ```
 rag-code-qa/
 ├── src/
-│   ├── parser/            ✅ Complete (modular package)
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── python_parser.py
-│   │   ├── javascript_parser.py
-│   │   ├── dispatcher.py
-│   │   ├── directory_walker.py
-│   │   ├── README.md      (474 lines - comprehensive docs)
-│   │   └── LLD.md         (635 lines - detailed diagrams)
-│   ├── chunker.py         ⏳ Next
-│   ├── embedder.py        📋 Planned
-│   ├── storage.py         📋 Planned
-│   ├── retriever.py       📋 Planned
-│   ├── generator.py       📋 Planned
-│   └── cli.py             📋 Planned
+│   ├── __init__.py
+│   ├── parser/              ✅ Complete (modular package)
+│   │   ├── __init__.py      (Public API)
+│   │   ├── models.py        (ParsedFunction dataclass)
+│   │   ├── python_parser.py (AST-based Python parsing)
+│   │   ├── javascript_parser.py (Regex-based JS/TS parsing)
+│   │   ├── dispatcher.py    (File routing)
+│   │   ├── directory_walker.py (Recursive traversal)
+│   │   ├── test_parser_manual.py (Manual test suite)
+│   │   ├── README.md        (474 lines - learning context + examples)
+│   │   └── LLD.md           (635 lines - flow diagrams + references)
+│   ├── chunker/             ✅ Complete (modular package)
+│   │   ├── __init__.py      (Public API)
+│   │   ├── models.py        (Chunk dataclass)
+│   │   ├── formatter.py     (Three-layer formatting + truncation)
+│   │   ├── token_counter.py (tiktoken integration)
+│   │   ├── hasher.py        (SHA-256 ID generation)
+│   │   ├── chunker.py       (Orchestrator: format → count → hash)
+│   │   ├── test_chunker_manual.py (Manual test suite)
+│   │   ├── README.md        (461 lines - learning context + examples)
+│   │   └── LLD.md           (Flow diagrams + component reference)
+│   ├── embedder.py          📋 Next - OpenAI API + caching
+│   ├── storage.py           📋 Planned - ChromaDB management
+│   ├── retriever.py         📋 Planned - Similarity search
+│   ├── generator.py         📋 Planned - Claude + context
+│   └── cli.py               📋 Planned - Click interface
 ├── tests/
-│   └── (unit tests for each module)
+│   ├── __init__.py
+│   ├── test_parser.py       (Unit tests)
+│   ├── test_chunker.py      (Unit tests)
+│   ├── test_embedder.py     (Planned)
+│   ├── test_storage.py      (Planned)
+│   ├── test_retriever.py    (Planned)
+│   └── test_generator.py    (Planned)
 ├── data/
-│   ├── indexed/           (ChromaDB persistence)
-│   └── cache/             (Embedding cache)
+│   ├── indexed/             (ChromaDB persistence - gitignored)
+│   └── cache/               (Embedding cache - gitignored)
 ├── config/
-│   └── config.yaml        (Configuration)
-├── REQUIREMENTS.md        (Detailed specifications)
-└── README.md              (This file)
+│   └── config.yaml          (Configuration)
+├── REQUIREMENTS.md          (Detailed specifications)
+├── README.md                (This file)
+├── setup.py
+└── requirements.txt
 ```
+
+**Progress**: 2/7 components complete (29%)
 
 ---
 
@@ -268,6 +307,7 @@ pytest-cov>=4.0.0
 
 ---
 
-**Last Updated**: January 2, 2026
-**Current Focus**: Parser complete, chunker next
-**Learning Mode**: Building step-by-step with understanding
+**Last Updated**: January 2, 2026 (Day 5)
+**Current Focus**: Parser ✅ & Chunker ✅ complete, embedder next
+**Progress**: 2/7 components (29%) - modular architecture validated
+**Learning Mode**: Building step-by-step with comprehensive documentation
