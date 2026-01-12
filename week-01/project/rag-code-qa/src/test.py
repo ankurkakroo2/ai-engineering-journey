@@ -27,6 +27,7 @@ from src.chunker import chunk_functions, get_chunking_stats
 from src.embedder import embed_chunks, get_embedding_stats, get_cache_stats
 from src.storage import StorageManager
 from src.retriever import retrieve
+from src.generator import generate_answer
 
 
 # ANSI color codes for beautiful output
@@ -422,7 +423,76 @@ def stage_5_retrieval(storage_manager):
     return results
 
 
-def show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrieval_results):
+def stage_6_generation(retrieval_results):
+    """Stage 6: Generate answer with Claude."""
+    print_header("STAGE 6: GENERATOR - Answer Generation with Claude")
+
+    if not retrieval_results:
+        print_warning("No retrieval results - skipping generation stage")
+        return None
+
+    # Sample query (same as retrieval)
+    query = "How does the visitor pattern work in the parser?"
+    print_info(f"Query: '{query}'")
+    print_info(f"Context: {len(retrieval_results)} retrieved chunks")
+
+    print_section("Generating answer with Claude...")
+    start_time = time.time()
+
+    try:
+        result = generate_answer(query, retrieval_results)
+        elapsed = time.time() - start_time
+        print_success(f"Generated answer in {elapsed:.3f}s")
+
+    except Exception as e:
+        elapsed = time.time() - start_time
+        print_warning(f"Generation failed after {elapsed:.3f}s: {str(e)}")
+        print_info("This is expected if ANTHROPIC_API_KEY is not set", indent=1)
+        return None
+
+    # Display answer
+    print_section("Generated Answer")
+
+    # Wrap answer for better display
+    answer_lines = result.answer.split('\n')
+    for line in answer_lines:
+        if line.strip():
+            # Wrap long lines
+            if len(line) > 75:
+                words = line.split()
+                current_line = ""
+                for word in words:
+                    if len(current_line) + len(word) + 1 <= 75:
+                        current_line += word + " "
+                    else:
+                        print(f"{Colors.YELLOW}{current_line.strip()}{Colors.END}")
+                        current_line = word + " "
+                if current_line:
+                    print(f"{Colors.YELLOW}{current_line.strip()}{Colors.END}")
+            else:
+                print(f"{Colors.YELLOW}{line}{Colors.END}")
+        else:
+            print()
+
+    # Display metadata
+    print_section("Generation Metadata")
+    print_stat("Model", result.model)
+    print_stat("Tokens used", f"{result.total_tokens} (prompt: {result.prompt_tokens}, completion: {result.completion_tokens})")
+    print_stat("Generation time", f"{result.generation_time:.2f}s")
+    print_stat("Has citations", "Yes" if result.has_citations else "No")
+    print_stat("Citation count", result.citation_count)
+    print_stat("Answer length", f"{result.answer_length} words")
+
+    # Display citations
+    if result.sources_cited:
+        print_section("Sources Cited")
+        for i, citation in enumerate(result.sources_cited, 1):
+            print(f"  {Colors.CYAN}[{i}]{Colors.END} {citation}")
+
+    return result
+
+
+def show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrieval_results, generation_result):
     """Show overall pipeline summary."""
     print_header("PIPELINE SUMMARY")
 
@@ -434,6 +504,7 @@ def show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrie
     embedder_status = f"{Colors.GREEN}✓ Embedder{Colors.END}" if embeddings else f"{Colors.YELLOW}⊘ Embedder (skipped){Colors.END}"
     storage_status = f"{Colors.GREEN}✓ Storage{Colors.END}" if storage_manager else f"{Colors.YELLOW}⊘ Storage (skipped){Colors.END}"
     retrieval_status = f"{Colors.GREEN}✓ Retriever{Colors.END}" if retrieval_results is not None and retrieval_results != [] else f"{Colors.YELLOW}⊘ Retriever (skipped){Colors.END}"
+    generator_status = f"{Colors.GREEN}✓ Generator{Colors.END}" if generation_result else f"{Colors.YELLOW}⊘ Generator (skipped){Colors.END}"
 
     print(f"""
     {Colors.BOLD}Source File{Colors.END}
@@ -448,7 +519,9 @@ def show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrie
         ↓
     {retrieval_status} → {len(retrieval_results) if retrieval_results else 0} results
         ↓
-    {Colors.BOLD}Ready for Generation{Colors.END}
+    {generator_status} → Natural language answer
+        ↓
+    {Colors.BOLD}Ready for CLI{Colors.END}
     """)
 
     print_section("Key Insights")
@@ -489,10 +562,16 @@ def show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrie
         else:
             print_info("⊘ Retriever ran but found no results above threshold")
 
+    if generation_result:
+        print_info("✓ Generator created natural language answer")
+        print_info(f"✓ Answer length: {generation_result.answer_length} words")
+        print_info(f"✓ Citations: {generation_result.citation_count}")
+        print_info(f"✓ Tokens used: {generation_result.total_tokens}")
+
     print_section("Next Steps")
-    print_info("1. Generator: Use Claude to generate answers")
-    print_info("2. CLI: Build command-line interface")
-    print_info("3. End-to-end testing")
+    print_info("1. CLI: Build command-line interface")
+    print_info("2. End-to-end testing")
+    print_info("3. Deploy and iterate")
 
 
 def main():
@@ -502,7 +581,8 @@ def main():
     print("║                                                                           ║")
     print("║                   RAG PIPELINE TEST & VISUALIZATION                       ║")
     print("║                                                                           ║")
-    print("║      Components 1-5: Parser → Chunker → Embedder → Storage → Retriever  ║")
+    print("║  Components 1-6: Parser → Chunker → Embedder → Storage → Retriever →    ║")
+    print("║                  Generator                                                ║")
     print("║                                                                           ║")
     print("╚═══════════════════════════════════════════════════════════════════════════╝")
     print(f"{Colors.END}\n")
@@ -523,8 +603,11 @@ def main():
         # Stage 5: Retriever
         retrieval_results = stage_5_retrieval(storage_manager)
 
+        # Stage 6: Generator
+        generation_result = stage_6_generation(retrieval_results)
+
         # Summary
-        show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrieval_results)
+        show_pipeline_summary(functions, chunks, embeddings, storage_manager, retrieval_results, generation_result)
 
         # Final message
         print_header("TEST COMPLETE")
@@ -535,9 +618,10 @@ def main():
             bool(chunks),
             bool(embeddings),
             bool(storage_manager),
-            retrieval_results is not None
+            retrieval_results is not None,
+            bool(generation_result)
         ])
-        total_stages = 5
+        total_stages = 6
 
         if stages_completed == total_stages:
             print(f"{Colors.GREEN}{Colors.BOLD}✓ All {total_stages} stages completed successfully!{Colors.END}\n")
@@ -549,6 +633,8 @@ def main():
                 print(f"{Colors.YELLOW}  ⊘ Storage stage skipped (no embeddings to store){Colors.END}")
             if retrieval_results is None:
                 print(f"{Colors.YELLOW}  ⊘ Retriever stage skipped (no storage or API key){Colors.END}")
+            if not generation_result:
+                print(f"{Colors.YELLOW}  ⊘ Generator stage skipped (set ANTHROPIC_API_KEY to enable){Colors.END}")
             print()
 
     except Exception as e:

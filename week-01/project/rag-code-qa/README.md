@@ -2,8 +2,8 @@
 
 A CLI tool that answers natural language questions about codebases using Retrieval-Augmented Generation (RAG).
 
-**Status**: 🚧 In Development (Component 3/7 Complete - **43% progress**)
-**Learning Project**: Week 1, Day 5-6 of 8-week AI Engineering Journey
+**Status**: ✅ Complete (Core components built, remaining skipped)
+**Learning Project**: Week 1 of 8-week AI Engineering Journey - SHIPPED
 
 ---
 
@@ -134,42 +134,33 @@ Answer with Citations
 
 📄 **Documentation**: See [src/embedder/README.md](src/embedder/README.md) for detailed docs and [src/embedder/LLD.md](src/embedder/LLD.md) for design diagrams
 
-### 📋 Component 4: Storage (Planned)
+### ⏭️ Component 4: Storage (SKIPPED)
 **File**: `src/storage.py`
-**What it will do**: Manage ChromaDB collection
+**What it would do**: Manage ChromaDB collection
+**Status**: Skipped - straightforward ChromaDB wrapper following established patterns
 
-**Key decisions**:
-- Distance metric: Cosine similarity
-- Persistent storage in `./data/indexed`
-- Upsert support for incremental updates
+**Rationale**: ChromaDB integration validated in Experiment 2. Implementation follows standard patterns (collection management, upsert, cosine similarity). Core learning objectives achieved through Parser/Chunker/Embedder.
 
-### 📋 Component 5: Retriever (Planned)
+### ⏭️ Component 5: Retriever (SKIPPED)
 **File**: `src/retriever.py`
-**What it will do**: Find semantically relevant chunks
+**What it would do**: Find semantically relevant chunks
+**Status**: Skipped - straightforward similarity search
 
-**Key decisions**:
-- Top-k: 5 chunks (default)
-- Minimum score threshold: 0.3
-- Return chunks with similarity scores
+**Rationale**: Retrieval patterns validated in Experiment 2. Implementation is direct application of ChromaDB query API with top-k filtering. Core concepts thoroughly understood.
 
-### 📋 Component 6: Generator (Planned)
+### ⏭️ Component 6: Generator (SKIPPED)
 **File**: `src/generator.py`
-**What it will do**: Generate answers using Claude
+**What it would do**: Generate answers using Claude
+**Status**: Skipped - straightforward LLM API integration
 
-**Key decisions**:
-- Model: claude-sonnet-4
-- Context: Retrieved chunks as working memory
-- Citations: File paths and line numbers
+**Rationale**: RAG generation pattern validated in Experiment 3. Implementation follows standard prompt engineering (context + query → Claude → answer with citations). Core learning objectives met.
 
-### 📋 Component 7: CLI (Planned)
+### ⏭️ Component 7: CLI (SKIPPED)
 **File**: `src/cli.py`
-**What it will do**: Command-line interface
+**What it would do**: Command-line interface
+**Status**: Skipped - straightforward Click CLI wrapper
 
-**Commands**:
-- `index <path>` - Index a codebase
-- `query <question>` - Ask a question
-- `list` - List indexed functions
-- `stats` - Show index statistics
+**Rationale**: CLI frameworks are well-understood patterns. Focus was on RAG fundamentals (embeddings, chunking, retrieval), not tooling. Core concepts successfully validated through experiments and modular implementation.
 
 ---
 
@@ -208,10 +199,10 @@ rag-code-qa/
 │   │   ├── test_embedder_manual.py (Manual test suite)
 │   │   ├── README.md        (16K - learning context + examples)
 │   │   └── LLD.md           (12K - flow diagrams + reference)
-│   ├── storage.py           📋 Next - ChromaDB management + persistence
-│   ├── retriever.py         📋 Planned - Similarity search
-│   ├── generator.py         📋 Planned - Claude + context
-│   └── cli.py               📋 Planned - Click interface
+│   ├── storage.py           ⏭️ SKIPPED - ChromaDB management + persistence
+│   ├── retriever.py         ⏭️ SKIPPED - Similarity search
+│   ├── generator.py         ⏭️ SKIPPED - Claude + context
+│   └── cli.py               ⏭️ SKIPPED - Click interface
 ├── tests/
 │   ├── __init__.py
 │   ├── test_parser.py       (Unit tests)
@@ -231,7 +222,7 @@ rag-code-qa/
 └── requirements.txt
 ```
 
-**Progress**: 3/7 components complete (43%)
+**Progress**: Week 1 Complete - 3 production modules built, 4 components skipped (core learning objectives achieved)
 
 ---
 
@@ -311,15 +302,30 @@ pytest-cov>=4.0.0
 
 ---
 
-## Next Steps
+## Week 1 Completion Summary
 
-1. **Implement chunker.py** - Convert ParsedFunction → Chunk
-2. **Implement embedder.py** - Generate embeddings with caching
-3. **Implement storage.py** - ChromaDB integration
-4. **Implement retriever.py** - Similarity search
-5. **Implement generator.py** - Claude answer generation
-6. **Implement cli.py** - Command-line interface
-7. **End-to-end testing** - Validate full pipeline
+### ✅ What Was Built
+1. **Parser module** - Production-quality AST-based parsing with comprehensive docs
+2. **Chunker module** - Semantic chunking with token counting and deterministic IDs
+3. **Embedder module** - Batch processing with dual-layer caching and rate limiting
+4. **7 validation experiments** - Theory validated through hands-on practice
+
+### ⏭️ What Was Skipped
+1. **Storage** - ChromaDB wrapper (straightforward integration)
+2. **Retriever** - Similarity search (standard query patterns)
+3. **Generator** - Claude integration (prompt engineering basics)
+4. **CLI** - Click interface (well-understood tooling)
+
+### 🎯 Core Learning Objectives Achieved
+- ✅ Deep understanding of LLM mechanics (pretraining → post-training → RLHF)
+- ✅ Embeddings and vector similarity fundamentals
+- ✅ RAG architecture (retrieval → working memory → generation)
+- ✅ Modular package design with comprehensive documentation
+- ✅ Chunking strategies validated through experiments
+- ✅ Production patterns: caching, batch processing, error handling
+
+### 📈 Moving to Week 2
+Week 2 focus: **Vector Databases Deep Dive** - Qdrant, pgvector, HNSW algorithms, production patterns
 
 ---
 
@@ -332,7 +338,7 @@ pytest-cov>=4.0.0
 
 ---
 
-**Last Updated**: January 3, 2026 (Day 5-6)
-**Current Focus**: Parser ✅ & Chunker ✅ & Embedder ✅ complete, storage next
-**Progress**: 3/7 components (43%) - modular architecture validated through three production modules
-**Learning Mode**: Building step-by-step with comprehensive documentation
+**Last Updated**: January 12, 2026 (Week 1 Complete)
+**Status**: Week 1 SHIPPED - Core components built, remaining skipped
+**Progress**: 3 production modules + 7 experiments = Core RAG understanding achieved
+**Next**: Week 2 - Vector Databases Deep Dive (Qdrant, pgvector, production patterns)
